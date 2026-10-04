@@ -9,9 +9,9 @@
      self.addEventListener('install',()=>self.skipWaiting());
      self.addEventListener('activate',e=>e.waitUntil(self.registration.unregister()));
 */
-const CACHE = 'india2026-v1';
-const CORE = ['./', 'index.html', 'manifest.webmanifest', 'images/hero.webp', 'images/icon-180.png',
-  'images/day-jal-mahal.webp', 'images/day-amer-fort.webp', 'images/day-pashupatinath.webp'];
+const CACHE = 'india2026-v2';   // bump when the file list changes
+const CORE = ['./', 'index.html', 'manifest.webmanifest', 'hero-bg.webp', 'icon-180.png',
+  'day-jal-mahal.webp', 'day-amer-fort.webp', 'day-pashupatinath.webp'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).catch(() => {}).then(() => self.skipWaiting()));
@@ -35,7 +35,9 @@ self.addEventListener('fetch', e => {
       const fresh = await fetch(url.href, { cache: 'no-cache', credentials: 'same-origin' });
       if (fresh && fresh.ok) {
         const copy = fresh.clone();
-        caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+        // every page visit (with or without ?today=…) is stored as the one app page
+        const key = req.mode === 'navigate' ? new URL('index.html', self.registration.scope).href : req;
+        caches.open(CACHE).then(c => c.put(key, copy)).catch(() => {});
       }
       return fresh;
     } catch (err) {

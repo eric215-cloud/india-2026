@@ -30,6 +30,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
+[id]{scroll-margin-top:14px}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;color:var(--ink);background:
  radial-gradient(circle at 8% 0%,rgba(242,165,22,.16),transparent 22rem),
@@ -80,7 +81,7 @@ h2.sec:first-child{margin-top:4px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
 .pad{padding:16px}
 .stack{display:grid;gap:12px}
-.grid2{display:grid;gap:12px}
+.grid2{display:grid;gap:12px;align-items:start}
 .muted{color:var(--muted)}
 .small{font-size:.84rem}
 .tag{display:inline-flex;align-items:center;gap:4px;font-size:.68rem;font-weight:850;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--peacock-soft);color:var(--peacock);white-space:nowrap}
@@ -267,6 +268,13 @@ h2.sec:first-child{margin-top:4px}
 .acc li{margin:6px 0}
 .acc .acc-links{padding:0 16px 14px;display:flex;flex-wrap:wrap;gap:8px}
 .prep-grid{display:grid;gap:12px}
+.prep-link{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;border:0;background:transparent;padding:12px 0;border-bottom:1px dashed var(--line)}
+.prep-link:last-child{border-bottom:0;padding-bottom:2px}
+.prep-link .mi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--sand);font-size:1.1rem}
+.prep-link strong{display:block;font-size:.98rem}
+.prep-link .pl-sub{display:block;color:var(--muted);font-size:.84rem;line-height:1.4;margin-top:2px}
+.prep-link .progress-track{display:block;height:7px}
+.prep-link .chev{font-size:1.5rem;color:var(--muted);line-height:1}
 .prep-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px}
 .prep-card h3{margin:0 0 6px;display:flex;gap:8px;align-items:center;font-size:1.02rem}
 .prep-card ul{margin:0;padding-left:18px;line-height:1.5;color:#4a4558;font-size:.9rem}
@@ -350,6 +358,7 @@ h2.sec:first-child{margin-top:4px}
   .bottom-nav,.fab-search{display:none}
   .app{padding-bottom:0}
   .toast{bottom:30px}
+  [id]{scroll-margin-top:80px}
 }
 @media(max-width:380px){
   .fgrid{grid-template-columns:1fr}
@@ -849,12 +858,6 @@ const GUIDE = [
     'There’s no dress code: no formal nights, no jacket and tie. Every hotel has laundry, so pack light.',
     '🔎 A warm layer for the open-jeep safaris at dawn, and a scarf for temples and dust.'
   ]},
-  { id: 'insurance', icon: '🛡️', title: 'Travel insurance', when: 'before', items: [
-    'OUTbound doesn’t provide travel insurance but recommends it.',
-    'Cost depends on trip cost, your state, when you buy, and pre-existing conditions.',
-    'Common reasons people use it: cancel for any reason, unexpected work, personal or family illness.',
-    'Save your policy number and the insurer’s 24/7 phone under My Info.'
-  ], links: [{ t: 'Travel Guard (OUTbound partner)', u: 'https://partners.travelguard.com/buy?pcode=&ta_arc=345102' }] },
   { id: 'photos', icon: '📸', title: 'Photograph before you go', when: 'before', items: [
     'Your passport’s main page and your Indian visa.',
     'Prescription bottles and their labels.',
@@ -877,7 +880,6 @@ const CHECKLIST = [
   { id: 'earrival', t: 'India e-Arrival Card filed (within 72 hours of landing)' },
   { id: 'install', t: 'This app on my Home Screen, opened from there' },
   { id: 'flights', t: 'My flights entered under My Info' },
-  { id: 'insurance', t: 'Travel insurance bought; policy number saved under My Info' },
   { id: 'photos', t: 'Photos taken: passport, visa, prescriptions, luggage contents' },
   { id: 'cards', t: 'Visa or Mastercard packed (Amex isn’t widely accepted); bank told about the trip' },
   { id: 'cash', t: 'Some rupees, or an ATM card that works abroad' },
@@ -1196,7 +1198,11 @@ function beforeHTML() {
   const firstDays = DAYS.filter(d => ['d1', 'd2', 'd3', 'd4'].includes(d.id));
   return `<h2 class="sec">Getting ready</h2>
   <div class="grid2">
-    <div class="block"><h3>✅ Checklist</h3><div class="check-head"><strong>${done} of ${total} done</strong></div><div class="progress-track"><div class="progress-bar" style="width:${(done / total * 100).toFixed(0)}%"></div></div><button class="btn sm" data-go="guide" style="margin-top:6px">Open checklist →</button></div>
+    <div class="block"><h3>🧳 Prepare</h3>
+      <button class="prep-link" data-go="guide" data-anchor="prep-docs"><span class="mi">🛂</span><span><strong>Required travel documents</strong><span class="pl-sub">Passport, India eVisa, e-Arrival Card, Nepal entry, photos to take</span></span><span class="chev">›</span></button>
+      <button class="prep-link" data-go="guide" data-anchor="prep-pack"><span class="mi">👕</span><span><strong>What to pack</strong><span class="pl-sub">Clothes, shoes, layers for the safaris, plugs</span></span><span class="chev">›</span></button>
+      <button class="prep-link" data-go="guide" data-anchor="checklist"><span class="mi">✅</span><span><strong>My checklist</strong><span class="pl-sub">${done} of ${total} done</span><span class="progress-track" style="margin:6px 0 0"><span class="progress-bar" style="display:block;width:${(done / total * 100).toFixed(0)}%"></span></span></span><span class="chev">›</span></button>
+    </div>
     <div class="block"><h3>⏰ Deadlines</h3><div class="moves">
       <div class="move"><div class="mi">📲</div><div><strong>India e-Arrival Card</strong><span>Within 72 hours before you land. Free.</span></div></div>
       <div class="move"><div class="mi">🇳🇵</div><div><strong>Nepal online arrival form</strong><span>No earlier than Oct 15 (15 days before arrival).</span><span class="tag nepal">Nepal add-on</span></div></div>
@@ -1519,14 +1525,19 @@ function renderGuide() {
   const v = $('#guideView'), p = phase();
   const legend = `<p class="legend">Straight from OUTbound’s guide, except lines marked 🔎 — those were added from official public sources.</p>`;
   if (p === 'before') {
-    const prep = ['docs', 'earrival', 'nepal', 'pack', 'insurance', 'photos'];
+    const docs = ['docs', 'earrival', 'nepal', 'photos'];
     const trip = ['arrive', 'luggage', 'money', 'tipping', 'water', 'power', 'time', 'temples', 'air', 'services'];
-    v.innerHTML = `<h2 class="sec">Get ready</h2><p class="sec-sub">Everything to sort before you fly. Once the trip starts, this tab becomes the Guide and the prep folds away.</p>${legend}
-      ${checklistHTML()}<h2 class="sec">Before you fly</h2><div class="prep-grid">${prep.map(id => prepCardHTML(GUIDE.find(g => g.id === id))).join('')}</div>
+    v.innerHTML = `<h2 class="sec">Get ready</h2><p class="sec-sub">Everything to sort before you fly. Once the trip starts, this tab becomes the Guide and the prep folds away.</p>
+      <div class="jump"><button class="btn alt sm" data-j="prep-docs">🛂 Travel documents</button><button class="btn alt sm" data-j="prep-pack">👕 What to pack</button><button class="btn alt sm" data-j="checklist">✅ Checklist</button></div>
+      ${legend}
+      <h2 class="sec" id="prep-docs">Required travel documents</h2><div class="prep-grid">${docs.map(id => prepCardHTML(GUIDE.find(g => g.id === id))).join('')}</div>
+      <h2 class="sec" id="prep-pack">What to pack</h2>${prepCardHTML(GUIDE.find(g => g.id === 'pack'))}
+      <h2 class="sec">My checklist</h2>${checklistHTML()}
       <h2 class="sec">Good to know for the trip</h2><p class="sec-sub">Tap a topic to open it.</p>${trip.map(id => accHTML(GUIDE.find(g => g.id === id))).join('')}`;
+    $$('[data-j]', v).forEach(b => b.onclick = () => { const el = document.getElementById(b.dataset.j); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
   } else {
     const now = ['money', 'tipping', 'water', 'power', 'time', 'temples', 'air', 'services', 'nepal', 'luggage', 'arrive'];
-    const before = ['docs', 'earrival', 'pack', 'insurance', 'photos'];
+    const before = ['docs', 'earrival', 'photos', 'pack'];
     v.innerHTML = `<h2 class="sec">Guide</h2><p class="sec-sub">Practical information for the road. Tap a topic to open it.</p>${legend}
       ${now.map(id => accHTML(GUIDE.find(g => g.id === id))).join('')}
       <details class="before-fold"><summary>🧳 Before you left — prep & checklist</summary>${checklistHTML()}<div style="height:12px"></div><div class="prep-grid">${before.map(id => prepCardHTML(GUIDE.find(g => g.id === id))).join('')}</div></details>

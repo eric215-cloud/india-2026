@@ -268,6 +268,43 @@ h2.sec:first-child{margin-top:4px}
 .acc li{margin:6px 0}
 .acc .acc-links{padding:0 16px 14px;display:flex;flex-wrap:wrap;gap:8px}
 .prep-grid{display:grid;gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:0;border-radius:18px;padding:14px 12px 12px;color:#fff;min-height:132px;box-shadow:0 10px 24px rgba(31,36,87,.18);transition:transform .15s}
+.tile:active{transform:scale(.97)}
+.tile .ti{font-size:1.5rem;line-height:1;margin-bottom:6px}
+.tile strong{font-size:.98rem;line-height:1.2}
+.tile .ts{font-size:.74rem;line-height:1.35;opacity:.88}
+.tile .tgo{margin-top:auto;padding-top:8px;font-size:.78rem;font-weight:850;opacity:.95}
+.tile .tbar{display:block;width:100%;height:6px;border-radius:9px;background:rgba(255,255,255,.3);margin-top:6px;overflow:hidden}
+.tile .tbar span{display:block;height:100%;background:#fff;border-radius:9px}
+.tile.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:12px;min-height:0;padding:14px 14px}
+.tile.wide .ti{margin:0;font-size:1.7rem}
+.tile.wide .tw{flex:1;display:flex;flex-direction:column;gap:3px}
+.tile.wide strong{font-size:1.05rem}
+.tile.wide .tgo{margin:0;padding:0;white-space:nowrap}
+.t-trip{background:linear-gradient(135deg,#b4432a,var(--saffron) 60%,var(--marigold))}
+.tiles-label{grid-column:1/-1;font-size:.72rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:8px 0 -2px}
+.back-btn{border:0;background:transparent;color:var(--peacock);font-weight:850;font-size:.95rem;padding:4px 0;margin:0 0 2px}
+.page-title{margin-top:2px!important}
+.page-next{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
+.callout{list-style:none;margin:6px 0 10px -18px!important;background:var(--rose-soft);border:1.5px solid rgba(214,51,108,.35);color:#7d1238;border-radius:12px;padding:9px 12px;font-weight:750}
+.acc .callout{margin-left:-18px!important}
+.t-docs{background:linear-gradient(145deg,var(--indigo),#3b3f9c)}
+.t-pack{background:linear-gradient(145deg,#0b6a6e,var(--peacock))}
+.t-check{background:linear-gradient(145deg,#b8285c,var(--rose))}
+.timeline{position:relative;margin-left:4px;padding-left:0}
+.tl-row{position:relative;display:grid;grid-template-columns:96px 1fr;gap:14px;padding:0 0 16px 18px}
+.tl-row:before{content:"";position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:var(--marigold);box-shadow:0 0 0 3px var(--paper)}
+.tl-row:after{content:"";position:absolute;left:4px;top:14px;bottom:-6px;width:1.5px;background:rgba(31,36,87,.18)}
+.tl-row:last-child:after{display:none}
+.tl-when{font-size:.74rem;font-weight:850;letter-spacing:.03em;text-transform:uppercase;color:var(--saffron);line-height:1.3;padding-top:2px}
+.tl-what strong{display:block;font-size:.95rem}
+.tl-what>span{display:block;color:var(--muted);font-size:.85rem;line-height:1.45;margin-top:1px}
+.tl-row.hot:before{background:var(--rose)}
+.tl-row.hot .tl-when{color:var(--rose)}
+.tl-row.hot .tl-what strong{color:var(--rose)}
+.prep-card.hot{border:2px solid var(--rose);background:linear-gradient(180deg,#fff,#fff6f9)}
+.hot-banner{background:var(--rose);color:#fff;font-weight:850;font-size:.8rem;letter-spacing:.02em;margin:-14px -16px 12px;padding:9px 16px;border-radius:16px 16px 0 0}
 .prep-link{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;border:0;background:transparent;padding:12px 0;border-bottom:1px dashed var(--line)}
 .prep-link:last-child{border-bottom:0;padding-bottom:2px}
 .prep-link .mi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--sand);font-size:1.1rem}
@@ -361,6 +398,8 @@ h2.sec:first-child{margin-top:4px}
   [id]{scroll-margin-top:80px}
 }
 @media(max-width:380px){
+  .tiles{gap:7px}.tile{padding:12px 9px 10px}.tile strong{font-size:.88rem}
+  .tl-row{grid-template-columns:80px 1fr}
   .fgrid{grid-template-columns:1fr}
   .hero-tile{width:78px;height:78px}
 }
@@ -706,7 +745,7 @@ const DAYS = [
       { i: '🧳', t: 'Check out of The Leela', s: 'Confirm checkout time and your airport transfer with your guide.' },
       { i: '🏠', t: 'Going home', s: 'Add your flight under My Info and it shows here.', who: 'home', personal: 'home' },
       { i: '✈️', t: 'Air India AI 219 · DEL 2:00pm → KTM 4:10pm', s: 'Arrival is Nepal time.', who: 'nepal', flight: 'ai219' },
-      { i: '🛂', t: 'Visa on arrival at Kathmandu airport', s: 'Then your OUTbound rep meets you, helps with bags and transfers you to the hotel.', who: 'nepal' }
+      { i: '🛂', t: 'Visa on arrival at Kathmandu airport', s: 'Pay in US dollars, CASH — about $30. Then your OUTbound rep meets you, helps with bags and transfers you to the hotel.', who: 'nepal' }
     ],
     events: [
       { i: '☕', t: 'Last morning in Delhi', d: 'Pack, explore, or relax before your next leg.' },
@@ -793,7 +832,8 @@ const GUIDE = [
     'Visa is widely accepted in shops and restaurants in the larger cities. American Express is not.',
     'Carry cash for smaller towns and for buying crafts and textiles directly from artisans.',
     'Bring notes in good condition — many vendors refuse worn or torn notes.',
-    '🔎 Nepal uses the Nepali rupee (NPR). Bring US dollars in clean notes for the visa on arrival.'
+    '🔎 Nepal uses the Nepali rupee (NPR).',
+    '!!💵 Nepal add-on: the visa on arrival is paid in US DOLLARS, CASH — about $30. Don’t count on a card. Bring clean, undamaged notes.'
   ]},
   { id: 'tipping', icon: '🙏', title: 'Tipping', when: 'during', items: [
     'Tipping is the only thing not included in your OUTbound vacation.',
@@ -841,14 +881,17 @@ const GUIDE = [
     'Your passport needs six months’ validity remaining. 🔎 The US State Department also asks for two blank pages.',
     'US citizens are NOT eligible for a visa on arrival in India. Allow two weeks for the eVisa.',
     '🔎 The official government eVisa site is indianvisaonline.gov.in/evisa.',
-    'At hotel check-in you need only your passport and a copy of your India eVisa.'
+    'At hotel check-in you need only your passport and a copy of your India eVisa.',
+    '🔎 Separately, everyone also needs the India e-Arrival Card — see the next section.'
   ], links: [{ t: 'Official India eVisa site', u: 'https://indianvisaonline.gov.in/evisa/' }] },
-  { id: 'earrival', icon: '📲', title: 'India e-Arrival Card', when: 'before', items: [
-    '🔎 Required for foreign visitors since April 1, 2026. It replaced the paper landing card.',
-    '🔎 File it online within 72 hours before you land — on the Indian visa website or the “Indian Visa Su-Swagatam” app. It’s free.',
-    '🔎 You get a QR code to show at immigration. One form can cover up to five people travelling together.',
+  { id: 'earrival', icon: '📲', title: 'India e-Arrival Card', when: 'before', hot: '⚠️ Also required — in addition to your eVisa', items: [
+    '🔎 A separate online form from your eVisa. Everyone needs both: the eVisa lets you into India, the e-Arrival Card is your landing form.',
+    '🔎 Required for all foreign visitors since April 1, 2026 (it replaced the paper landing card). It’s new, so it isn’t in OUTbound’s guide.',
+    '🔎 When: no more than 72 hours before your flight lands in India.',
+    '🔎 Where: the official Indian visa website (button below) or the “Indian Visa Su-Swagatam” app. It’s free — don’t pay a third-party site.',
+    '🔎 You get a QR code. Screenshot it and show it at immigration. One form can cover up to five people travelling together.',
     '🔎 Nepal add-on: file a new one before you fly back into Delhi on November 3.'
-  ], links: [{ t: 'e-Arrival Card (official)', u: 'https://indianvisaonline.gov.in/earrival/' }] },
+  ], links: [{ t: 'File the e-Arrival Card (official)', u: 'https://indianvisaonline.gov.in/earrival/' }] },
   { id: 'pack', icon: '👕', title: 'What to pack', when: 'before', items: [
     'Late September to early December is the best time to visit — pleasant days, but evenings can get cool.',
     'Comfortable, lightweight clothing in natural fabrics such as cotton.',
@@ -865,7 +908,8 @@ const GUIDE = [
     'The contents of your luggage before you close it.'
   ]},
   { id: 'nepal', icon: '🇳🇵', title: 'Nepal add-on: entry', when: 'both', nepal: true, items: [
-    '🔎 US citizens can get a visa on arrival at Kathmandu airport: about $30 for 15 days, paid in US cash. It can take a while.',
+    '!!💵 Bring US DOLLARS IN CASH for the visa — about $30 for 15 days. Don’t count on paying by card, and bring clean, undamaged notes.',
+    '🔎 US citizens get the visa on arrival at Kathmandu airport. It can take a while.',
     '🔎 Speed things up by filling in Nepal’s online arrival form no earlier than 15 days before you arrive.',
     '🔎 Your passport needs six months’ validity beyond arrival and a blank page for the visa.',
     '🔎 Coming back through Delhi on November 3 counts as a second entry to India. A 30-day e-Tourist visa allows it; check your approval if you have a different visa type.',
@@ -877,7 +921,7 @@ const GUIDE = [
 const CHECKLIST = [
   { id: 'passport', t: 'Passport valid 6+ months, with 2 blank pages' },
   { id: 'evisa', t: 'India eVisa approved — printed copy packed for hotel check-in' },
-  { id: 'earrival', t: 'India e-Arrival Card filed (within 72 hours of landing)' },
+  { id: 'earrival', t: 'India e-Arrival Card filed — separate from the eVisa (within 72 hours of landing)' },
   { id: 'install', t: 'This app on my Home Screen, opened from there' },
   { id: 'flights', t: 'My flights entered under My Info' },
   { id: 'photos', t: 'Photos taken: passport, visa, prescriptions, luggage contents' },
@@ -890,7 +934,7 @@ const CHECKLIST = [
   { id: 'scarf', t: 'Scarf or shawl for temples' },
   { id: 'meds', t: 'Prescriptions in their original labelled bottles' },
   { id: 'backup', t: 'Backup code copied and sent to myself' },
-  { id: 'nepalcash', t: 'Nepal: US dollars in clean notes for the visa (about $30)', nepal: true },
+  { id: 'nepalcash', t: 'Nepal: US dollars in CASH for the visa (about $30, clean notes) — don’t count on a card', nepal: true },
   { id: 'nepalform', t: 'Nepal: online arrival form (no earlier than Oct 15)', nepal: true },
   { id: 'nepalvisa', t: 'Nepal: India visa allows re-entry on Nov 3', nepal: true }
 ];
@@ -995,7 +1039,7 @@ function tabs() {
     ['days', 'Days', '🗓️'],
     ['hotels', 'Hotels', '🏨'],
     ['me', 'My Info', '📇'],
-    ['guide', p === 'before' ? 'Prepare' : 'Guide', p === 'before' ? '🧳' : '📘']
+    ['guide', 'Guide', '📘']
   ];
 }
 function renderNav() {
@@ -1010,7 +1054,8 @@ function renderNav() {
 }
 function markNav() { $$('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === currentView)); }
 const RENDER = { home: renderHome, days: renderDays, hotels: renderHotels, me: renderMe, guide: renderGuide };
-function showView(id, anchor) {
+function showView(id, anchor, keepGuidePage) {
+  if (id === 'guide' && !keepGuidePage) guidePage = null;
   currentView = id;
   $$('.view').forEach(v => v.classList.toggle('active', v.id === id + 'View'));
   markNav();
@@ -1018,6 +1063,7 @@ function showView(id, anchor) {
   paintWeather();
   const heroH = $('.hero').offsetHeight;
   if (anchor) { const el = document.getElementById(anchor); if (el) { let p = el; while (p) { if (p.tagName === 'DETAILS') p.open = true; p = p.parentElement; } setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60); return; } }
+  if (id === 'guide' && guidePage) { window.scrollTo({ top: heroH }); return; }
   if (window.scrollY > heroH) window.scrollTo({ top: heroH });
 }
 function openDay(i) { activeDay = i; showView('days'); }
@@ -1197,18 +1243,13 @@ function beforeHTML() {
   const out = st.flights.out;
   const firstDays = DAYS.filter(d => ['d1', 'd2', 'd3', 'd4'].includes(d.id));
   return `<h2 class="sec">Getting ready</h2>
-  <div class="grid2">
-    <div class="block"><h3>🧳 Prepare</h3>
-      <button class="prep-link" data-go="guide" data-anchor="prep-docs"><span class="mi">🛂</span><span><strong>Required travel documents</strong><span class="pl-sub">Passport, India eVisa, e-Arrival Card, Nepal entry, photos to take</span></span><span class="chev">›</span></button>
-      <button class="prep-link" data-go="guide" data-anchor="prep-pack"><span class="mi">👕</span><span><strong>What to pack</strong><span class="pl-sub">Clothes, shoes, layers for the safaris, plugs</span></span><span class="chev">›</span></button>
-      <button class="prep-link" data-go="guide" data-anchor="checklist"><span class="mi">✅</span><span><strong>My checklist</strong><span class="pl-sub">${done} of ${total} done</span><span class="progress-track" style="margin:6px 0 0"><span class="progress-bar" style="display:block;width:${(done / total * 100).toFixed(0)}%"></span></span></span><span class="chev">›</span></button>
-    </div>
-    <div class="block"><h3>⏰ Deadlines</h3><div class="moves">
-      <div class="move"><div class="mi">📲</div><div><strong>India e-Arrival Card</strong><span>Within 72 hours before you land. Free.</span></div></div>
-      <div class="move"><div class="mi">🇳🇵</div><div><strong>Nepal online arrival form</strong><span>No earlier than Oct 15 (15 days before arrival).</span><span class="tag nepal">Nepal add-on</span></div></div>
-      <div class="move"><div class="mi">🏨</div><div><strong>Early arrival at The Leela</strong><span>From Fri Oct 16 — book through OUTbound.</span></div></div>
-      <div class="move"><div class="mi">🛬</div><div><strong>Tour begins in Delhi</strong><span>Sun Oct 18 · 3:00pm</span></div></div>
-    </div></div>
+  ${tilesHTML()}
+  <h2 class="sec">Key dates</h2>
+  <div class="timeline">
+    <div class="tl-row hot"><div class="tl-when">Within 72 hrs<br>of landing</div><div class="tl-what"><strong>India e-Arrival Card</strong><span>Required for everyone, <b>in addition to</b> your eVisa. Free, online.</span></div></div>
+    <div class="tl-row"><div class="tl-when">From Oct 15</div><div class="tl-what"><strong>Nepal online arrival form</strong><span>No earlier than 15 days before you arrive. <span class="tag nepal">Nepal add-on</span></span></div></div>
+    <div class="tl-row"><div class="tl-when">Fri Oct 16</div><div class="tl-what"><strong>Early arrival at The Leela</strong><span>Optional — book through OUTbound.</span></div></div>
+    <div class="tl-row"><div class="tl-when">Sun Oct 18<br>3:00pm</div><div class="tl-what"><strong>Tour begins in Delhi</strong><span>Land at DEL; OUTbound meets you at Gate 4.</span></div></div>
   </div>
   <h2 class="sec">My flights there</h2>
   ${out.length ? `<div class="block"><div class="moves">${out.map(s => segMoveHTML(s, 'out')).join('')}</div><button class="btn alt sm" data-go="me" style="margin-top:8px">Edit flights →</button></div>`
@@ -1237,6 +1278,7 @@ function renderHome() {
   if (p === 'during') wantAqi(DAYS[dayIndexFor(t)].city);
 }
 function bindCommon(root) {
+  bindGuideTiles(root);
   $$('[data-day]', root).forEach(b => b.onclick = () => openDay(+b.dataset.day));
   $$('[data-plans]', root).forEach(b => b.onclick = () => { activeDay = +b.dataset.plans; showView('days', 'plans-' + DAYS[activeDay].id); });
   $$('[data-go]', root).forEach(b => b.onclick = () => showView(b.dataset.go, b.dataset.anchor));
@@ -1503,46 +1545,78 @@ function markBackupDone() { if (!st.checks.backup) { st.checks.backup = true; S.
 /* =====================================================================
    GUIDE / PREPARE
    ===================================================================== */
-function checklistHTML() {
-  const total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
-  return `<div class="block" id="checklist"><div class="check-head"><h3 style="margin:0">✅ My checklist</h3><strong>${done}/${total}</strong></div>
+const PACK_IDS = ['adapter', 'jacket', 'shoes', 'sun', 'scarf', 'meds'];
+function checklistHTML(ids, title, boxId) {
+  const items = ids ? CHECKLIST.filter(c => ids.includes(c.id)) : CHECKLIST;
+  const total = items.length, done = items.filter(c => st.checks[c.id]).length;
+  return `<div class="block cl-box" id="${boxId || 'checklist'}" data-ids="${items.map(c => c.id).join(',')}"><div class="check-head"><h3 style="margin:0">${title || '✅ My checklist'}</h3><strong>${done}/${total}</strong></div>
     <div class="progress-track"><div class="progress-bar" style="width:${(done / total * 100).toFixed(0)}%"></div></div>
-    ${CHECKLIST.map(c => `<label class="check-item ${st.checks[c.id] ? 'done' : ''}"><input type="checkbox" data-ck="${c.id}" ${st.checks[c.id] ? 'checked' : ''}><span>${esc(c.t)}${c.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</span></label>`).join('')}</div>`;
+    ${items.map(c => `<label class="check-item ${st.checks[c.id] ? 'done' : ''}"><input type="checkbox" data-ck="${c.id}" ${st.checks[c.id] ? 'checked' : ''}><span>${esc(c.t)}${c.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</span></label>`).join('')}</div>`;
 }
 function bindChecklist(root) {
   $$('[data-ck]', root).forEach(b => b.onchange = () => {
     st.checks[b.dataset.ck] = b.checked; S.set('Checklist', st.checks);
     b.closest('.check-item').classList.toggle('done', b.checked);
-    const box = b.closest('#checklist'), total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
-    $('.check-head strong', box).textContent = done + '/' + total;
-    $('.progress-bar', box).style.width = (done / total * 100).toFixed(0) + '%';
+    const box = b.closest('.cl-box'), ids = box.dataset.ids.split(','), done = ids.filter(id => st.checks[id]).length;
+    $('.check-head strong', box).textContent = done + '/' + ids.length;
+    $('.progress-bar', box).style.width = (done / ids.length * 100).toFixed(0) + '%';
   });
 }
+function itemHTML(x) { return x.startsWith('!!') ? `<li class="callout">${esc(x.slice(2).trim())}</li>` : `<li>${esc(x)}</li>`; }
 function sectionLinks(s) { return (s.links || []).length ? `<div class="btn-row">${s.links.map(l => `<a class="btn sm alt" href="${esc(l.u)}" target="_blank" rel="noopener">${esc(l.t)} ↗</a>`).join('')}</div>` : ''; }
-function prepCardHTML(s) { return `<div class="prep-card" id="g-${s.id}"><h3><span>${s.icon}</span>${esc(s.title)}${s.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</h3><ul>${s.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${sectionLinks(s)}</div>`; }
-function accHTML(s, open) { return `<details class="acc" id="g-${s.id}" ${open ? 'open' : ''}><summary><span>${s.icon}</span>${esc(s.title)}${s.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</summary><ul>${s.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${(s.links || []).length ? `<div class="acc-links">${sectionLinks(s)}</div>` : ''}</details>`; }
+function prepCardHTML(s) { return `<div class="prep-card${s.hot ? ' hot' : ''}" id="g-${s.id}">${s.hot ? `<div class="hot-banner">${esc(s.hot)}</div>` : ''}<h3><span>${s.icon}</span>${esc(s.title)}${s.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</h3><ul>${s.items.map(itemHTML).join('')}</ul>${sectionLinks(s)}</div>`; }
+function accHTML(s, open) { return `<details class="acc" id="g-${s.id}" ${open ? 'open' : ''}><summary><span>${s.icon}</span>${esc(s.title)}${s.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</summary><ul>${s.items.map(itemHTML).join('')}</ul>${(s.links || []).length ? `<div class="acc-links">${sectionLinks(s)}</div>` : ''}</details>`; }
+
+/* The Guide tab is a menu of four short pages. Home's tiles open the same pages. */
+let guidePage = null;   // null = menu | 'trip' | 'docs' | 'pack' | 'check'
+const GUIDE_PAGES = {
+  trip: { title: 'Good to know', icon: '📘' },
+  docs: { title: 'Travel documents', icon: '🛂' },
+  pack: { title: 'What to pack', icon: '👕' },
+  check: { title: 'My checklist', icon: '✅' }
+};
+function guidePageFor(sectionId) { return ['docs', 'earrival', 'photos'].includes(sectionId) ? 'docs' : sectionId === 'pack' ? 'pack' : 'trip'; }
+function openGuide(page, anchor) { guidePage = page; showView('guide', anchor, true); }
+function tilesHTML() {
+  const total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
+  const during = phase() !== 'before';
+  const prep = `
+    <button class="tile t-docs" data-guide="docs"><span class="ti">🛂</span><strong>Travel documents</strong><span class="ts">Passport · eVisa · e-Arrival Card</span><span class="tgo">Open ›</span></button>
+    <button class="tile t-pack" data-guide="pack"><span class="ti">👕</span><strong>What to pack</strong><span class="ts">Clothes · shoes · plugs</span><span class="tgo">Open ›</span></button>
+    <button class="tile t-check" data-guide="check"><span class="ti">✅</span><strong>My checklist</strong><span class="ts">${done} of ${total} done</span><span class="tbar"><span style="width:${(done / total * 100).toFixed(0)}%"></span></span><span class="tgo">Open ›</span></button>`;
+  return `<div class="tiles">
+    <button class="tile wide t-trip" data-guide="trip"><span class="ti">📘</span><span class="tw"><strong>Good to know for the trip</strong><span class="ts">Arriving in Delhi · money & tipping · water · plugs · time zones · temples · air quality · laundry · lost luggage</span></span><span class="tgo">Open ›</span></button>
+    ${during ? `<div class="tiles-label">Before you left</div>` : ''}${prep}</div>`;
+}
+function bindGuideTiles(root) { $$('[data-guide]', root).forEach(b => b.onclick = () => openGuide(b.dataset.guide)); }
 function renderGuide() {
   const v = $('#guideView'), p = phase();
   const legend = `<p class="legend">Straight from OUTbound’s guide, except lines marked 🔎 — those were added from official public sources.</p>`;
-  if (p === 'before') {
-    const docs = ['docs', 'earrival', 'nepal', 'photos'];
-    const trip = ['arrive', 'luggage', 'money', 'tipping', 'water', 'power', 'time', 'temples', 'air', 'services'];
-    v.innerHTML = `<h2 class="sec">Get ready</h2><p class="sec-sub">Everything to sort before you fly. Once the trip starts, this tab becomes the Guide and the prep folds away.</p>
-      <div class="jump"><button class="btn alt sm" data-j="prep-docs">🛂 Travel documents</button><button class="btn alt sm" data-j="prep-pack">👕 What to pack</button><button class="btn alt sm" data-j="checklist">✅ Checklist</button></div>
-      ${legend}
-      <h2 class="sec" id="prep-docs">Required travel documents</h2><div class="prep-grid">${docs.map(id => prepCardHTML(GUIDE.find(g => g.id === id))).join('')}</div>
-      <h2 class="sec" id="prep-pack">What to pack</h2>${prepCardHTML(GUIDE.find(g => g.id === 'pack'))}
-      <h2 class="sec">My checklist</h2>${checklistHTML()}
-      <h2 class="sec">Good to know for the trip</h2><p class="sec-sub">Tap a topic to open it.</p>${trip.map(id => accHTML(GUIDE.find(g => g.id === id))).join('')}`;
-    $$('[data-j]', v).forEach(b => b.onclick = () => { const el = document.getElementById(b.dataset.j); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-  } else {
-    const now = ['money', 'tipping', 'water', 'power', 'time', 'temples', 'air', 'services', 'nepal', 'luggage', 'arrive'];
-    const before = ['docs', 'earrival', 'photos', 'pack'];
-    v.innerHTML = `<h2 class="sec">Guide</h2><p class="sec-sub">Practical information for the road. Tap a topic to open it.</p>${legend}
-      ${now.map(id => accHTML(GUIDE.find(g => g.id === id))).join('')}
-      <details class="before-fold"><summary>🧳 Before you left — prep & checklist</summary>${checklistHTML()}<div style="height:12px"></div><div class="prep-grid">${before.map(id => prepCardHTML(GUIDE.find(g => g.id === id))).join('')}</div></details>
-      <h2 class="sec">Trip links</h2>${linksHTML()}`;
+  if (!guidePage) {
+    v.innerHTML = `<h2 class="sec">Guide</h2><p class="sec-sub">${p === 'before' ? 'Everything to sort before you fly, and what to know once you’re there.' : 'Practical information for the road.'}</p>${tilesHTML()}<h2 class="sec">Trip links</h2>${linksHTML()}`;
+    bindGuideTiles(v);
+    return;
   }
+  const G = GUIDE_PAGES[guidePage], find = id => GUIDE.find(g => g.id === id);
+  let body = '';
+  if (guidePage === 'trip') {
+    const order = p === 'before'
+      ? ['arrive', 'money', 'tipping', 'water', 'power', 'time', 'temples', 'air', 'services', 'luggage', 'nepal']
+      : ['money', 'tipping', 'water', 'power', 'time', 'temples', 'air', 'services', 'nepal', 'luggage', 'arrive'];
+    body = `<p class="sec-sub">Tap a topic to open it.</p>${legend}${order.map(id => accHTML(find(id))).join('')}`;
+  } else if (guidePage === 'docs') {
+    body = `<p class="sec-sub">What you need to get into India — and into Nepal on the add-on.</p>${legend}<div class="prep-grid">${['docs', 'earrival', 'nepal', 'photos'].map(id => prepCardHTML(find(id))).join('')}</div>`;
+  } else if (guidePage === 'pack') {
+    body = `${legend}${prepCardHTML(find('pack'))}<div style="height:12px"></div>${checklistHTML(PACK_IDS, '🧳 Tick off as you pack', 'packlist')}<p class="small muted">These are the packing items from your checklist — ticking them here ticks them there too.</p>`;
+  } else {
+    body = `<p class="sec-sub">Saved on this phone.</p>${checklistHTML()}`;
+  }
+  const others = Object.keys(GUIDE_PAGES).filter(k => k !== guidePage);
+  v.innerHTML = `<button class="back-btn" data-guide-back>‹ Guide</button>
+    <h2 class="sec page-title">${G.icon} ${esc(G.title)}</h2>${body}
+    <div class="page-next">${others.map(k => `<button class="btn alt sm" data-guide="${k}">${GUIDE_PAGES[k].icon} ${esc(GUIDE_PAGES[k].title)}</button>`).join('')}</div>`;
+  $('[data-guide-back]', v).onclick = () => { guidePage = null; showView('guide', null, true); };
+  bindGuideTiles(v);
   bindChecklist(v);
 }
 
@@ -1609,11 +1683,11 @@ function searchIndex() {
   Object.entries(HOTELS).forEach(([id, H]) => a.push({ w: 'Hotel · ' + H.city, t: H.name, x: `${H.addr} ${H.phone} ${H.nights} ${st.rooms[id] ? 'room ' + st.rooms[id] : ''}`, go: () => showView('hotels', 'hotel-' + id) }));
   GROUP_FLIGHTS.forEach(f => a.push({ w: 'Group flight · ' + f.date, t: `${f.airline} ${f.code} · ${f.from} → ${f.to}`, x: `${f.fromCity} ${f.toCity} departs ${f.dep} arrives ${f.arr}`, go: () => showView('hotels') }));
   ['out', 'home'].forEach(k => st.flights[k].forEach(s => a.push({ w: k === 'out' ? 'My flights · there' : 'My flights · home', t: `${s.airline || ''} ${s.no || ''} ${s.from || ''} → ${s.to || ''}`, x: `${s.date ? fmtISO(s.date) : ''} ${s.dep || ''} ${s.conf || ''} ${s.seat || ''} ${s.notes || ''}`, go: () => showView('me') })));
-  GUIDE.forEach(s => a.push({ w: 'Guide', t: s.title, x: s.items.join(' '), go: () => showView('guide', 'g-' + s.id) }));
+  GUIDE.forEach(s => a.push({ w: 'Guide', t: s.title, x: s.items.join(' '), go: () => openGuide(guidePageFor(s.id), 'g-' + s.id) }));
   DIRECTORY.forEach(g => g.rows.forEach(r => a.push({ w: 'Contacts · ' + g.group, t: r.name, x: `${r.sub} ${r.actions.map(x => x.v).join(' ')}`, go: () => showView('me', 'directory') })));
   const n = st.nums; [['res', 'OUTbound reservation'], ['evisa', 'India eVisa ID'], ['insPol', 'Insurance policy'], ['insPhone', 'Insurance phone']].forEach(([k, l]) => n[k] && a.push({ w: 'My numbers', t: l, x: n[k], go: () => showView('me', 'mynumbers') }));
   (n.custom || []).forEach(c => a.push({ w: 'My numbers', t: c.l, x: c.v, go: () => showView('me', 'mynumbers') }));
-  CHECKLIST.forEach(c => a.push({ w: 'Checklist', t: c.t, x: '', go: () => showView('guide', 'checklist') }));
+  CHECKLIST.forEach(c => a.push({ w: 'Checklist', t: c.t, x: '', go: () => openGuide('check') }));
   return a;
 }
 let IDX = [];

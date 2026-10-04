@@ -308,6 +308,9 @@ h2.sec:first-child{margin-top:4px}
 .t-docs{background:linear-gradient(145deg,var(--indigo),#3b3f9c)}
 .t-pack{background:linear-gradient(145deg,#0b6a6e,var(--peacock))}
 .t-check{background:linear-gradient(145deg,#b8285c,var(--rose))}
+.tile-dates{grid-column:span 2;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px 2px;box-shadow:0 10px 24px rgba(31,36,87,.08)}
+.tile-dates h3{margin:0 0 12px;font-size:.74rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:850}
+.tile-dates .tl-row:before{box-shadow:0 0 0 3px #fff}
 .timeline{position:relative;margin-left:4px;padding-left:0}
 .tl-row{position:relative;display:grid;grid-template-columns:96px 1fr;gap:14px;padding:0 0 16px 18px}
 .tl-row:before{content:"";position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:var(--marigold);box-shadow:0 0 0 3px var(--paper)}
@@ -1317,7 +1320,7 @@ const KEY_DATES = [
 function keyDatesHTML() {
   const t = todayISO(), rows = KEY_DATES.filter(k => t <= k.until);
   if (!rows.length) return '';
-  return `<h2 class="sec">Key dates</h2><div class="timeline">${rows.map(k => `<div class="tl-row${k.hot ? ' hot' : ''}"><div class="tl-when">${k.when}</div><div class="tl-what"><strong>${k.title}</strong><span>${k.text}</span></div></div>`).join('')}</div>`;
+  return `<div class="tile-dates"><h3>⏰ Key dates</h3><div class="timeline">${rows.map(k => `<div class="tl-row${k.hot ? ' hot' : ''}"><div class="tl-when">${k.when}</div><div class="tl-what"><strong>${k.title}</strong><span>${k.text}</span></div></div>`).join('')}</div></div>`;
 }
 function renderHome() {
   const p = phase(), t = todayISO(), v = $('#homeView');
@@ -1326,13 +1329,12 @@ function renderHome() {
     const i = dayIndexFor(t);
     if (DAYS[i].early) h += `<div class="info" style="margin-bottom:12px">🧳 Early-arrival days. The tour begins Sunday, October 18 at 3:00pm.</div>`;
     h += todayHTML(i);
-    h += `<h2 class="sec">Trip guide</h2>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML()}`;
+    h += `<h2 class="sec">Trip guide</h2>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML(keyDatesHTML())}`;
   } else if (p === 'before') {
-    h += `${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML()}`;
+    h += `${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML(keyDatesHTML())}`;
   } else {
-    h += `<div class="today-head" style="margin-bottom:14px"><div class="kicker">Enchanting India · 2026</div><h2>Welcome home</h2><div class="ttl">“We never say goodbye… only until we see you again.”</div></div>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML()}`;
+    h += `<div class="today-head" style="margin-bottom:14px"><div class="kicker">Enchanting India · 2026</div><h2>Welcome home</h2><div class="ttl">“We never say goodbye… only until we see you again.”</div></div>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML(keyDatesHTML())}`;
   }
-  h += keyDatesHTML();
   h += `<h2 class="sec">The route</h2><p class="sec-sub">Tap a stop to open that day.</p><div class="block">${routeHTML()}</div>`;
   h += `<h2 class="sec">Trip links</h2>${linksHTML()}`;
   v.innerHTML = h;
@@ -1639,7 +1641,7 @@ const GUIDE_PAGES = {
 };
 function guidePageFor(sectionId) { return ['docs', 'earrival', 'photos'].includes(sectionId) ? 'docs' : sectionId === 'pack' ? 'pack' : 'trip'; }
 function openGuide(page, anchor) { guidePage = page; showView('guide', anchor, true); }
-function tilesHTML() {
+function tilesHTML(extra) {
   const total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
   const t = todayISO(), prep = t < TRIP.tourStart;          // packing & checklist tiles retire on Oct 18
   const needArrival = prep && !st.checks.earrival;
@@ -1650,6 +1652,7 @@ function tilesHTML() {
     ${prep ? `<button class="tile t-pack" data-guide="pack"><span class="ti">👕</span><strong>What to pack</strong><span class="ts">Clothes, shoes, layers, plugs — tick off as you pack</span><span class="tgo">Open ›</span></button>
     <button class="tile t-check" data-guide="check"><span class="ti">✅</span><strong>My checklist</strong><span class="ts">${done} of ${total} done</span><span class="tbar"><span style="width:${(done / total * 100).toFixed(0)}%"></span></span><span class="tgo">Open ›</span></button>` : ''}
     <button class="tile t-backup" data-guide="backup"><span class="ti">💾</span><strong>Backup</strong><span class="ts">Send yourself a copy of everything you’ve typed in</span><span class="tgo">Open ›</span></button>
+    ${extra || ''}
   </div>`;
 }
 function bindGuideTiles(root) { $$('[data-guide]', root).forEach(b => b.onclick = () => openGuide(b.dataset.guide)); }

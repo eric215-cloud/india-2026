@@ -71,7 +71,7 @@ button{cursor:pointer;color:inherit}
 .tab-btn.active{color:#fff;background:var(--indigo)}
 .search-btn{margin-left:auto;background:#fff;border:1px solid var(--line);border-radius:99px;padding:9px 14px;font-weight:800}
 .bottom-nav{position:fixed;z-index:40;left:0;right:0;bottom:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
-.bottom-inner{display:grid;grid-template-columns:repeat(5,1fr);max-width:560px;margin:auto}
+.bottom-inner{display:grid;grid-template-columns:repeat(4,1fr);max-width:520px;margin:auto}
 .bottom-btn{border:0;background:transparent;color:#77727f;font-size:.68rem;font-weight:800;padding:6px 2px;border-radius:12px}
 .bottom-btn span{display:block;font-size:1.3rem;line-height:1.2;margin-bottom:1px}
 .bottom-btn.active{color:var(--indigo);background:rgba(31,36,87,.07)}
@@ -428,8 +428,8 @@ button.link-card{width:100%;text-align:left;font:inherit;color:inherit;cursor:po
 body[data-view="days"]{background:#f4f1fa}
 body[data-view="flights"]{background:#edf2fb}
 body[data-view="hotels"]{background:#ebf5f2}
-body[data-view="guide"]{background:#fcefd6}
-body[data-view="days"] .topbar,body[data-view="flights"] .topbar,body[data-view="hotels"] .topbar,body[data-view="guide"] .topbar{background:rgba(255,255,255,.82)}
+body[data-view="guide"],body[data-view="home"]{background:#fcefd6}
+body[data-view="home"] .topbar,body[data-view="days"] .topbar,body[data-view="flights"] .topbar,body[data-view="hotels"] .topbar,body[data-view="guide"] .topbar{background:rgba(255,255,255,.82)}
 
 </style>
 </head>
@@ -839,7 +839,7 @@ const DAYS = [
 
 /* ---------------------------------------------------------------------
    GUIDE / PREP SECTIONS
-   when: 'before'  shown on the Prepare tab, folded away once the trip starts
+   when: 'before'  pre-trip prep (Travel documents / What to pack pages)
          'during'  practical info, up front once the trip starts
          'both'    always up front
    --------------------------------------------------------------------- */
@@ -968,7 +968,7 @@ const CHECKLIST = [
 ];
 
 /* ---------------------------------------------------------------------
-   DIRECTORY — fixed numbers. Personal numbers live on the Guide → Contacts & numbers page.
+   DIRECTORY — fixed numbers. Personal numbers live on the Contacts & numbers page (a tile on Home).
    kind: tel | wa | mail | url
    --------------------------------------------------------------------- */
 const DIRECTORY = [
@@ -1002,18 +1002,20 @@ const DIRECTORY = [
 
 /* "How to use this app" page. **text** renders bold. */
 const HOWTO = [
-  { icon: '🧭', title: 'The five tabs', items: [
-    '**Home / Today** — before the trip, Home is your getting-ready hub. From **October 16** it becomes **Today**: where you are, getting around, the plan, tonight’s hotel, tomorrow, and quick-call buttons.',
-    '**Days** — every day of the trip, any time. Tap a date along the top; today’s has a gold outline. Swipe the dates sideways to see more.',
+  { icon: '🧭', title: 'The four tabs', items: [
+    '**Home** — your trip hub: How to use, the coloured tiles (Contacts & numbers, Good to know, Travel documents, What to pack, My checklist, Backup), key dates, the route and OUTbound’s links.',
+    '**From October 16, Home becomes Today**: today’s details at the top — where you are, getting around, the plan, tonight’s hotel, tomorrow and quick-call buttons — with the tiles underneath.',
+    '**Days** — every day of the trip, any time, with its own tips. Tap a date along the top; today’s has a gold outline. Swipe the dates sideways to see more.',
     '**Flights** — your own flights there and home (add every leg), plus the three flights OUTbound booked for the group, in trip order.',
     '**Hotels** — each hotel with Call and Map buttons and a box for your room number.',
-    '**Guide** — Contacts & numbers, Good to know, Travel documents, What to pack, your checklist, and Backup.',
     '**🔎 Search** — the round button (or Search at the top on a computer) finds anything: a place, a hotel, a phone number, a tip.'
   ]},
   { icon: '🔄', title: 'Things that change on their own — it’s not broken', items: [
-    '**On October 16 the first tab changes** from Home to **Today**. The countdown and the getting-ready tiles leave the first tab, but everything is still under **Guide**.',
+    '**On October 16 the first tab changes** from Home to **Today**. The countdown in the header goes away when the tour begins on October 18.',
     'The **Today** screen changes every day to show only that day and the next. Use **Days** to look at any other day.',
-    'The **“Action needed”** badge on Travel documents disappears once you tick **“India e-Arrival Card filed”** in your checklist.',
+    '**Key dates** drop off Home once they’ve passed.',
+    'The **What to pack** and **My checklist** tiles leave Home when the tour starts on **October 18**. They’re still there — search for them, or use the buttons at the bottom of any tile’s page.',
+    'The **“Action needed”** badge on Travel documents disappears once you tick **“India e-Arrival Card filed”** in your checklist (and on October 18 regardless).',
     'Ticked checklist items stay on the list, crossed out. Tap again to untick.',
     '**Weather** appears about two weeks before each day. Until then you’ll see “Forecast appears ~2 weeks ahead”. **Air quality** shows on the Today screen during the trip.',
     '**Nepal days** are shown in maroon. If you’re not on the Nepal add-on, simply ignore them.',
@@ -1022,7 +1024,7 @@ const HOWTO = [
   { icon: '🔒', title: 'Your information', items: [
     'Anything you type — flights, room numbers, notes, checklist ticks — is saved **only on this phone**. It isn’t shared with the group or OUTbound.',
     'Safari and the Home Screen app keep **separate copies**. Add the app to your Home Screen and always use it from there.',
-    'Phones can clear saved website data on their own. Once your info is in, use **Guide → Backup** to send yourself a backup code.'
+    'Phones can clear saved website data on their own. Once your info is in, tap the **Backup** tile on Home to send yourself a backup code.'
   ]},
   { icon: '📶', title: 'Signal & updates', items: [
     'Once you’ve opened the app with a connection, it **still opens without signal** — on a plane, at the airport, between towns. Weather needs a connection.',
@@ -1104,8 +1106,7 @@ function tabs() {
     ['home', p === 'during' ? 'Today' : 'Home', p === 'during' ? '📍' : '🏠'],
     ['days', 'Days', '🗓️'],
     ['flights', 'Flights', '✈️'],
-    ['hotels', 'Hotels', '🏨'],
-    ['guide', 'Guide', '📘']
+    ['hotels', 'Hotels', '🏨']
   ];
 }
 function renderNav() {
@@ -1115,13 +1116,15 @@ function renderNav() {
     const b = document.createElement('button'); b.className = 'tab-btn'; b.dataset.view = id; b.textContent = label; b.onclick = () => showView(id); desk.appendChild(b);
     const m = document.createElement('button'); m.className = 'bottom-btn'; m.dataset.view = id; m.innerHTML = `<span>${icon}</span>${esc(label)}`; m.onclick = () => showView(id); mob.appendChild(m);
   });
+  mob.style.gridTemplateColumns = `repeat(${tabs().length},1fr)`;
   const s = document.createElement('button'); s.className = 'search-btn'; s.textContent = '🔎 Search'; s.onclick = openSearch; desk.appendChild(s);
   markNav();
 }
-function markNav() { $$('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === currentView)); }
+function markNav() { const cur = currentView === 'guide' ? 'home' : currentView; $$('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === cur)); }
 const RENDER = { home: renderHome, days: renderDays, flights: renderFlights, hotels: renderHotels, guide: renderGuide };
 function showView(id, anchor, keepGuidePage) {
   if (id === 'guide' && !keepGuidePage) guidePage = null;
+  if (id === 'guide' && !guidePage) id = 'home';   // the guide menu now lives on Home
   currentView = id;
   document.body.dataset.view = id;
   $$('.view').forEach(v => v.classList.toggle('active', v.id === id + 'View'));
@@ -1258,7 +1261,7 @@ function bindPlans(d, rerender) {
 function installHTML() {
   if (isStandalone() || !isMobile || st.ui.installHidden) return '';
   const steps = `<ol><li>Tap <strong>Share</strong> (the square with the arrow) in Safari.</li><li>Tap <strong>Add to Home Screen</strong> (scroll down if needed).</li><li>Leave <strong>Open as Web App</strong> switched ON, then tap <strong>Add</strong>.</li><li>Open <strong>India 2026</strong> from your Home Screen and use it from there.</li></ol>
-  <p class="small">Already typed info in Safari? Copy a backup code first (Guide → Backup), then restore it in the Home Screen app. On Android: Chrome menu ⋮ → Install app.</p>
+  <p class="small">Already typed info in Safari? Copy a backup code first (tap the Backup tile), then restore it in the Home Screen app. On Android: Chrome menu ⋮ → Install app.</p>
   <div class="btn-row"><button class="btn" data-guide="backup">Back up first</button><button class="btn alt" id="hideInstall">Hide</button></div>`;
   if (phase() === 'during') return `<details class="install mini" id="installCard"><summary>📲 Add this app to your Home Screen</summary><div class="inner"><p>Your info is saved on this phone, and Safari and the Home Screen app keep separate copies — so pick one and stick with it. The Home Screen app is safer.</p>${steps}</div></details>`;
   return `<div class="install" id="installCard"><h3>📲 Put this on your Home Screen first</h3>
@@ -1297,33 +1300,24 @@ function todayHTML(i) {
   const mine = st.plans[d.id] || [];
   h += `<div class="block"><h3>📝 My plans</h3>${mine.length ? mine.map(x => `<div class="plan-item" style="grid-template-columns:1fr"><div><strong>${esc(x.t)}</strong>${x.w ? `<span>🕒 ${esc(x.w)}</span>` : ''}${x.n ? `<span>${esc(x.n)}</span>` : ''}</div></div>`).join('') : `<p class="small muted" style="margin:0">${d.early ? 'Keep your early-arrival bookings here — tours, restaurants, confirmation numbers.' : 'Nothing of your own added for today.'}</p>`}<div style="margin-top:8px"><button class="btn alt sm" data-plans="${i}">${mine.length ? 'Edit my plans' : '+ Add plans'} →</button></div></div>`;
   h += hotelBlock;
-  if ((d.tips || []).length) h += `<div class="block"><h3>💡 Good to know</h3>${tipsHTML(d)}</div>`;
+  if ((d.tips || []).length) h += `<div class="block"><h3>💡 Tips for today</h3>${tipsHTML(d)}</div>`;
   const ni = dayIndexFor(addDays(t, 1)), n = ni > i ? DAYS[ni] : null;
   if (n) {
     const first = (n.moves || []).filter(m => !m.who || m.who !== 'home').slice(0, 2).map(m => m.t).join(' · ');
     h += `<div class="block"><h3>⏭️ Tomorrow · ${esc(n.short)}</h3><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><strong style="font-family:var(--serif);font-size:1.15rem">${esc(n.place)}</strong><div class="small muted">${esc(first || n.title)}</div></div>${wxSpan(n.city, n.iso, 'light')}</div>${lobbyHTML(n, '-n')}<div style="margin-top:8px"><button class="btn alt sm" data-day="${ni}">See tomorrow →</button></div></div>`;
   }
-  h += `<div class="block"><h3>☎️ Quick contacts</h3>${quickContactsHTML(d)}</div>${howtoBarHTML()}</div>`;
+  h += `<div class="block"><h3>☎️ Quick contacts</h3>${quickContactsHTML(d)}</div></div>`;
   return h;
 }
-function beforeHTML() {
-  const total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
-  const out = st.flights.out;
-  const firstDays = DAYS.filter(d => ['d1', 'd2', 'd3', 'd4'].includes(d.id));
-  return `<h2 class="sec">Getting ready</h2>
-  ${tilesHTML()}
-  <h2 class="sec">Key dates</h2>
-  <div class="timeline">
-    <div class="tl-row hot"><div class="tl-when">Within 72 hrs<br>of landing</div><div class="tl-what"><strong>India e-Arrival Card</strong><span>Required for everyone, <b>in addition to</b> your eVisa. Free, online.</span></div></div>
-    <div class="tl-row"><div class="tl-when">From Oct 15</div><div class="tl-what"><strong>Nepal online arrival form</strong><span>No earlier than 15 days before you arrive. <span class="tag nepal">Nepal add-on</span></span></div></div>
-    <div class="tl-row"><div class="tl-when">Fri Oct 16</div><div class="tl-what"><strong>Early arrival at The Leela</strong><span>Optional — book through OUTbound.</span></div></div>
-    <div class="tl-row"><div class="tl-when">Sun Oct 18<br>3:00pm</div><div class="tl-what"><strong>Tour begins in Delhi</strong><span>Land at DEL; OUTbound meets you at Gate 4.</span></div></div>
-  </div>
-  <h2 class="sec">My flights there</h2>
-  ${out.length ? `<div class="block"><div class="moves">${out.map(s => segMoveHTML(s, 'out')).join('')}</div><button class="btn alt sm" data-go="flights" style="margin-top:8px">Edit flights →</button></div>`
-    : `<div class="block"><p class="small" style="margin:0 0 10px">Add each leg of your flights to India — connections included. They’ll appear on the right day, with confirmation codes and seats.</p><button class="btn" data-go="flights">✈️ Add my flights</button></div>`}
-  <h2 class="sec">First days’ forecast</h2><p class="sec-sub">Live from Open-Meteo once the dates are within about two weeks.</p>
-  <div class="block"><div class="moves">${firstDays.map(d => `<div class="move"><div class="mi">${d.icon}</div><div><strong>${esc(d.short)} · ${esc(d.place)}</strong>${wxSpan(d.city, d.iso, 'light', 'Forecast appears ~2 weeks ahead')}</div></div>`).join('')}</div></div>`;
+/* Key dates drop off Home once they've passed. */
+const KEY_DATES = [
+  { until: '2026-10-18', hot: true, when: 'Within 72 hrs<br>of landing', title: 'India e-Arrival Card', text: 'Required for everyone, <b>in addition to</b> your eVisa. Free, online.' },
+  { until: '2026-10-30', when: 'From Oct 15', title: 'Nepal online arrival form', text: 'No earlier than 15 days before you arrive. <span class="tag nepal">Nepal add-on</span>' }
+];
+function keyDatesHTML() {
+  const t = todayISO(), rows = KEY_DATES.filter(k => t <= k.until);
+  if (!rows.length) return '';
+  return `<h2 class="sec">Key dates</h2><div class="timeline">${rows.map(k => `<div class="tl-row${k.hot ? ' hot' : ''}"><div class="tl-when">${k.when}</div><div class="tl-what"><strong>${k.title}</strong><span>${k.text}</span></div></div>`).join('')}</div>`;
 }
 function renderHome() {
   const p = phase(), t = todayISO(), v = $('#homeView');
@@ -1332,13 +1326,15 @@ function renderHome() {
     const i = dayIndexFor(t);
     if (DAYS[i].early) h += `<div class="info" style="margin-bottom:12px">🧳 Early-arrival days. The tour begins Sunday, October 18 at 3:00pm.</div>`;
     h += todayHTML(i);
+    h += `<h2 class="sec">Trip guide</h2>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML()}`;
   } else if (p === 'before') {
-    h += howtoBarHTML() + beforeHTML();
+    h += `${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML()}`;
   } else {
-    h += howtoBarHTML() + `<div class="today-head" style="margin-top:12px"><div class="kicker">Enchanting India · 2026</div><h2>Welcome home</h2><div class="ttl">“We never say goodbye… only until we see you again.”</div></div>`;
+    h += `<div class="today-head" style="margin-bottom:14px"><div class="kicker">Enchanting India · 2026</div><h2>Welcome home</h2><div class="ttl">“We never say goodbye… only until we see you again.”</div></div>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML()}`;
   }
+  h += keyDatesHTML();
   h += `<h2 class="sec">The route</h2><p class="sec-sub">Tap a stop to open that day.</p><div class="block">${routeHTML()}</div>`;
-  if (p !== 'during') h += `<h2 class="sec">Trip links</h2>${linksHTML()}`;
+  h += `<h2 class="sec">Trip links</h2>${linksHTML()}`;
   v.innerHTML = h;
   bindCommon(v);
   bindLobby(v);
@@ -1391,7 +1387,7 @@ function renderDay() {
       ${mv || d.lobby ? `<div class="block"><h3>🧭 Getting around</h3><div class="moves">${mv}</div>${lobbyHTML(d)}</div>` : ''}
       <div class="block"><h3>📋 The plan</h3><div class="events">${eventsHTML(d)}</div></div>
       <div class="tonight-main">${hotel}</div>
-      ${(d.tips || []).length ? `<div class="block"><h3>💡 Good to know</h3>${tipsHTML(d)}</div>` : ''}
+      ${(d.tips || []).length ? `<div class="block"><h3>💡 Tips for the day</h3>${tipsHTML(d)}</div>` : ''}
       ${plansHTML(d)}
       <div class="btn-row" style="justify-content:space-between">
         ${activeDay > 0 ? `<button class="btn alt" data-day="${activeDay - 1}">← ${esc(DAYS[activeDay - 1].short)}</button>` : '<span></span>'}
@@ -1444,7 +1440,7 @@ function hotelCardHTML(id) {
 function renderHotels() {
   const v = $('#hotelsView');
   const india = ['delhi', 'agra', 'ranth', 'jaipur', 'jodhpur', 'udaipur'], nepal = ['ktm', 'dhulikhel'];
-  v.innerHTML = `<h2 class="sec">Hotels</h2><p class="sec-sub">Where you sleep, night by night. Room numbers you type here are saved on this phone and show up on the Today screen.</p>
+  v.innerHTML = `<h2 class="sec">Hotels</h2><p class="sec-sub">Where you sleep, night by night. Room numbers you type here are saved on this phone and show up on the Today screen during the trip.</p>
   <div class="facts">
     <div class="fact"><div class="fi">🔌</div><b>Plugs</b><span>Type D (3 round pins) · 230 V</span></div>
     <div class="fact"><div class="fi">💧</div><b>Water</b><span>Bottled — in rooms & on the bus</span></div>
@@ -1467,7 +1463,7 @@ function renderHotels() {
 }
 
 /* =====================================================================
-   FLIGHTS tab + contacts / numbers / backup pages (shown under Guide) — personal flights, numbers, directory, backup
+   FLIGHTS tab + contacts / numbers / backup pages (opened from Home's tiles) — personal flights, numbers, directory, backup
    ===================================================================== */
 const SEG_FIELDS = [
   ['date', 'Date', 'date', ''], ['airline', 'Airline', 'text', 'United'], ['no', 'Flight', 'text', 'UA 82'],
@@ -1630,7 +1626,7 @@ function sectionLinks(s) { return (s.links || []).length ? `<div class="btn-row"
 function prepCardHTML(s) { return `<div class="prep-card${s.hot ? ' hot' : ''}" id="g-${s.id}">${s.hot ? `<div class="hot-banner">${esc(s.hot)}</div>` : ''}<h3><span>${s.icon}</span>${esc(s.title)}${s.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</h3><ul>${s.items.map(itemHTML).join('')}</ul>${sectionLinks(s)}</div>`; }
 function accHTML(s, open) { return `<details class="acc" id="g-${s.id}" ${open ? 'open' : ''}><summary><span>${s.icon}</span>${esc(s.title)}${s.nepal ? ' <span class="tag nepal">🇳🇵</span>' : ''}</summary><ul>${s.items.map(itemHTML).join('')}</ul>${(s.links || []).length ? `<div class="acc-links">${sectionLinks(s)}</div>` : ''}</details>`; }
 
-/* The Guide tab is a menu of four short pages. Home's tiles open the same pages. */
+/* Short pages opened from Home's tiles (Good to know, Travel documents, …). */
 let guidePage = null;   // null = menu | 'trip' | 'docs' | 'pack' | 'check'
 const GUIDE_PAGES = {
   trip: { title: 'Good to know', icon: '📘' },
@@ -1643,28 +1639,24 @@ const GUIDE_PAGES = {
 };
 function guidePageFor(sectionId) { return ['docs', 'earrival', 'photos'].includes(sectionId) ? 'docs' : sectionId === 'pack' ? 'pack' : 'trip'; }
 function openGuide(page, anchor) { guidePage = page; showView('guide', anchor, true); }
-function tilesHTML(full) {
+function tilesHTML() {
   const total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
-  const before = phase() === 'before';
-  const needArrival = before && !st.checks.earrival;
+  const t = todayISO(), prep = t < TRIP.tourStart;          // packing & checklist tiles retire on Oct 18
+  const needArrival = prep && !st.checks.earrival;
   return `<div class="tiles">
-    ${full ? `<button class="tile t-contacts" data-guide="contacts"><span class="ti">☎️</span><strong>Contacts & numbers</strong><span class="ts">Local host, hotels, embassies, emergency — and your own numbers</span><span class="tgo">Open ›</span></button>` : ''}
+    <button class="tile t-contacts" data-guide="contacts"><span class="ti">☎️</span><strong>Contacts & numbers</strong><span class="ts">Local host, hotels, embassies, emergency — and your own numbers</span><span class="tgo">Open ›</span></button>
     <button class="tile t-trip" data-guide="trip"><span class="ti">📘</span><strong>Good to know</strong><span class="ts">Money, tipping, plugs, temples, lost luggage & more</span><span class="tgo">Open ›</span></button>
-    <button class="tile t-docs" data-guide="docs">${needArrival ? '<span class="tbadge">Action needed</span>' : ''}<span class="ti">🛂</span><strong>Travel documents</strong><span class="ts">${before ? '<b>New for 2026:</b> India e-Arrival Card — required even if you already have your visa' : 'Passport, eVisa, e-Arrival Card, Nepal entry'}</span><span class="tgo">Open ›</span></button>
-    <button class="tile t-pack" data-guide="pack"><span class="ti">👕</span><strong>What to pack</strong><span class="ts">Clothes, shoes, layers, plugs — tick off as you pack</span><span class="tgo">Open ›</span></button>
-    <button class="tile t-check" data-guide="check"><span class="ti">✅</span><strong>My checklist</strong><span class="ts">${done} of ${total} done</span><span class="tbar"><span style="width:${(done / total * 100).toFixed(0)}%"></span></span><span class="tgo">Open ›</span></button>
-    ${full ? `<button class="tile t-backup" data-guide="backup"><span class="ti">💾</span><strong>Backup</strong><span class="ts">Send yourself a copy of everything you’ve typed in</span><span class="tgo">Open ›</span></button>` : ''}
+    <button class="tile t-docs" data-guide="docs">${needArrival ? '<span class="tbadge">Action needed</span>' : ''}<span class="ti">🛂</span><strong>Travel documents</strong><span class="ts">${prep ? '<b>New for 2026:</b> India e-Arrival Card — required even if you already have your visa' : 'Passport, eVisa, e-Arrival Card, Nepal entry'}</span><span class="tgo">Open ›</span></button>
+    ${prep ? `<button class="tile t-pack" data-guide="pack"><span class="ti">👕</span><strong>What to pack</strong><span class="ts">Clothes, shoes, layers, plugs — tick off as you pack</span><span class="tgo">Open ›</span></button>
+    <button class="tile t-check" data-guide="check"><span class="ti">✅</span><strong>My checklist</strong><span class="ts">${done} of ${total} done</span><span class="tbar"><span style="width:${(done / total * 100).toFixed(0)}%"></span></span><span class="tgo">Open ›</span></button>` : ''}
+    <button class="tile t-backup" data-guide="backup"><span class="ti">💾</span><strong>Backup</strong><span class="ts">Send yourself a copy of everything you’ve typed in</span><span class="tgo">Open ›</span></button>
   </div>`;
 }
 function bindGuideTiles(root) { $$('[data-guide]', root).forEach(b => b.onclick = () => openGuide(b.dataset.guide)); }
 function renderGuide() {
   const v = $('#guideView'), p = phase();
   const legend = `<p class="legend">Straight from OUTbound’s guide, except lines marked 🔎 — those were added from official public sources.</p>`;
-  if (!guidePage) {
-    v.innerHTML = `<h2 class="sec">Guide</h2><p class="sec-sub">${p === 'before' ? 'Everything to sort before you fly, and what to know once you’re there.' : 'Practical information for the road.'}</p>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML(true)}<h2 class="sec">Trip links</h2>${linksHTML()}`;
-    bindGuideTiles(v);
-    return;
-  }
+  if (!guidePage) return;
   const G = GUIDE_PAGES[guidePage], find = id => GUIDE.find(g => g.id === id);
   let body = '';
   if (guidePage === 'trip') {
@@ -1687,10 +1679,10 @@ function renderGuide() {
     body = `<p class="sec-sub">Saved on this phone.</p>${checklistHTML()}`;
   }
   const others = Object.keys(GUIDE_PAGES).filter(k => k !== guidePage && !GUIDE_PAGES[k].hidden);
-  v.innerHTML = `<button class="back-btn" data-guide-back>‹ Guide</button>
+  v.innerHTML = `<button class="back-btn" data-guide-back>‹ ${p === 'during' ? 'Today' : 'Home'}</button>
     <h2 class="sec page-title">${G.icon} ${esc(G.title)}</h2>${body}
     <div class="page-next">${others.map(k => `<button class="btn alt sm" data-guide="${k}">${GUIDE_PAGES[k].icon} ${esc(GUIDE_PAGES[k].title)}</button>`).join('')}</div>`;
-  $('[data-guide-back]', v).onclick = () => { guidePage = null; showView('guide', null, true); };
+  $('[data-guide-back]', v).onclick = () => { guidePage = null; showView('home'); };
   bindGuideTiles(v);
   bindChecklist(v);
   if (guidePage === 'contacts') bindNumbers(v);
@@ -1761,7 +1753,7 @@ function searchIndex() {
   GROUP_FLIGHTS.forEach(f => a.push({ w: 'Group flight · ' + f.date, t: `${f.airline} ${f.code} · ${f.from} → ${f.to}`, x: `${f.fromCity} ${f.toCity} departs ${f.dep} arrives ${f.arr}`, go: () => showView('flights', 'group-flights') }));
   ['out', 'home'].forEach(k => st.flights[k].forEach(s => a.push({ w: k === 'out' ? 'My flights · there' : 'My flights · home', t: `${s.airline || ''} ${s.no || ''} ${s.from || ''} → ${s.to || ''}`, x: `${s.date ? fmtISO(s.date) : ''} ${s.dep || ''} ${s.conf || ''} ${s.seat || ''} ${s.notes || ''}`, go: () => showView('flights') })));
   HOWTO.forEach(s => a.push({ w: 'How to use this app', t: s.title, x: s.items.join(' ').replace(/\*\*/g, ''), go: () => openGuide('howto') }));
-  GUIDE.forEach(s => a.push({ w: 'Guide', t: s.title, x: s.items.join(' '), go: () => openGuide(guidePageFor(s.id), 'g-' + s.id) }));
+  GUIDE.forEach(s => a.push({ w: GUIDE_PAGES[guidePageFor(s.id)].title, t: s.title, x: s.items.join(' '), go: () => openGuide(guidePageFor(s.id), 'g-' + s.id) }));
   DIRECTORY.forEach(g => g.rows.forEach(r => a.push({ w: 'Contacts · ' + g.group, t: r.name, x: `${r.sub} ${r.actions.map(x => x.v).join(' ')}`, go: () => openGuide('contacts', 'directory') })));
   const n = st.nums; [['res', 'OUTbound reservation'], ['evisa', 'India eVisa ID'], ['insPol', 'Insurance policy'], ['insPhone', 'Insurance phone']].forEach(([k, l]) => n[k] && a.push({ w: 'My numbers', t: l, x: n[k], go: () => openGuide('contacts', 'mynumbers') }));
   (n.custom || []).forEach(c => a.push({ w: 'My numbers', t: c.l, x: c.v, go: () => openGuide('contacts', 'mynumbers') }));

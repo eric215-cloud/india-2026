@@ -233,9 +233,10 @@ h2.sec:first-child{margin-top:4px}
 .f-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .f-personal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
 .f-personal input{border:1.5px solid #e8c06a;background:#fffdf6}
-.journey{margin-bottom:18px}
+.journey{margin-bottom:6px}
 .journey-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 8px}
-.journey-head h3{margin:0;font-size:1.05rem}
+.journey{margin-top:20px}
+.journey-head h3{margin:0;font-family:var(--serif);font-size:1.45rem}
 .seg-form{border:2px dashed rgba(47,58,143,.3);border-radius:18px;padding:14px;margin-top:10px;background:#f8f8ff}
 .seg-form h4{margin:0 0 10px}
 
@@ -296,6 +297,14 @@ h2.sec:first-child{margin-top:4px}
 .page-next{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;padding-top:14px;border-top:1px solid var(--line)}
 .callout{list-style:none;margin:6px 0 10px -18px!important;background:var(--rose-soft);border:1.5px solid rgba(214,51,108,.35);color:#7d1238;border-radius:12px;padding:9px 12px;font-weight:750}
 .acc .callout{margin-left:-18px!important}
+.t-contacts{background:linear-gradient(145deg,#4a1f5e,#7a3a8c)}
+.t-backup{background:linear-gradient(145deg,#2e3b4e,#4d6079)}
+.howto-bar{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;background:#fffaf0;border:2px solid var(--marigold);border-radius:16px;padding:11px 14px;margin:0 0 4px;box-shadow:0 6px 18px rgba(242,165,22,.12)}
+.howto-bar .hb-i{font-size:1.4rem}
+.howto-bar strong{display:block}
+.howto-bar .hb-t>span{display:block;color:var(--muted);font-size:.84rem;margin-top:1px}
+.howto-bar .chev{font-size:1.5rem;color:var(--muted);line-height:1}
+.today-head+.stack .howto-bar,.stack>.howto-bar{margin-top:2px}
 .t-docs{background:linear-gradient(145deg,var(--indigo),#3b3f9c)}
 .t-pack{background:linear-gradient(145deg,#0b6a6e,var(--peacock))}
 .t-check{background:linear-gradient(145deg,#b8285c,var(--rose))}
@@ -415,9 +424,16 @@ button.link-card{width:100%;text-align:left;font:inherit;color:inherit;cursor:po
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media print{.bottom-nav,.fab-search,.topbar{display:none}}
 
+/* ---------- a light tint per tab, so you can tell where you are ---------- */
+body[data-view="days"]{background:#f4f1fa}
+body[data-view="flights"]{background:#edf2fb}
+body[data-view="hotels"]{background:#ebf5f2}
+body[data-view="guide"]{background:#fcefd6}
+body[data-view="days"] .topbar,body[data-view="flights"] .topbar,body[data-view="hotels"] .topbar,body[data-view="guide"] .topbar{background:rgba(255,255,255,.82)}
+
 </style>
 </head>
-<body>
+<body data-view="home">
 <div class="app">
 <header class="hero">
   <div class="hero-inner">
@@ -438,7 +454,7 @@ button.link-card{width:100%;text-align:left;font:inherit;color:inherit;cursor:po
     <div id="dayBody"></div>
   </section>
   <section class="view" id="hotelsView"></section>
-  <section class="view" id="meView"></section>
+  <section class="view" id="flightsView"></section>
   <section class="view" id="guideView"></section>
 </main>
 <footer class="footer">Built from OUTbound’s Enchanting India vacation guide (latest version) and iamOUTbound.com. Lines marked 🔎 were added from public sources — hotel websites, the US State Department, Air India and Indian &amp; Nepali immigration. Your notes and numbers stay on this phone.</footer>
@@ -752,7 +768,7 @@ const DAYS = [
     times: [{ k: 'Nepal flight', v: '2:00pm' }],
     moves: [
       { i: '🧳', t: 'Check out of The Leela', s: 'Confirm checkout time and your airport transfer with your guide.' },
-      { i: '🏠', t: 'Going home', s: 'Add your flight under My Info and it shows here.', who: 'home', personal: 'home' },
+      { i: '🏠', t: 'Going home', s: 'Add your flight on the Flights tab and it shows here.', who: 'home', personal: 'home' },
       { i: '✈️', t: 'Air India AI 219 · DEL 2:00pm → KTM 4:10pm', s: 'Arrival is Nepal time.', who: 'nepal', flight: 'ai219' },
       { i: '🛂', t: 'Visa on arrival at Kathmandu airport', s: 'Pay in US dollars, CASH — about $30. Then your OUTbound rep meets you, helps with bags and transfers you to the hotel.', who: 'nepal' }
     ],
@@ -809,7 +825,7 @@ const DAYS = [
       { i: '🍳', t: 'Last breakfast together, then check out' },
       { i: '🚐', t: 'Back to Kathmandu airport (KTM)' },
       { i: '✈️', t: 'Air India AI 218 · KTM 2:55pm → DEL 4:30pm', s: 'Departs Nepal time, lands India time.', flight: 'ai218' },
-      { i: '🏠', t: 'Your flight home', s: 'Add it under My Info and it shows here.', personal: 'home' }
+      { i: '🏠', t: 'Your flight home', s: 'Add it on the Flights tab and it shows here.', personal: 'home' }
     ],
     events: [
       { i: '💛', t: 'Until we see you again', d: 'OUTbound never says goodbye.' }
@@ -907,6 +923,9 @@ const GUIDE = [
     'A light waterproof jacket for occasional rain or cool evenings.',
     'Good walking shoes or sandals — cities and temples have uneven surfaces.',
     'Hat, sunscreen and sunglasses. A camera.',
+    '**Plug adapters:** India uses **Type D** sockets — three large round pins, 230 V. Bring at least one adapter per person; ones with USB and USB-C ports are easy to find.',
+    '🔎 Check your chargers say “100–240V” (phone and laptop chargers almost always do). US hair dryers and straighteners often don’t — leave them home or bring dual-voltage ones.',
+    '🔎 Nepal add-on: Nepal uses Type C, D and M sockets; a Type D adapter covers most.',
     'There’s no dress code: no formal nights, no jacket and tie. Every hotel has laundry, so pack light.',
     '🔎 A warm layer for the open-jeep safaris at dawn, and a scarf for temples and dust.'
   ]},
@@ -932,11 +951,11 @@ const CHECKLIST = [
   { id: 'evisa', t: 'India eVisa approved — printed copy packed for hotel check-in' },
   { id: 'earrival', t: 'India e-Arrival Card filed — separate from the eVisa (within 72 hours of landing)' },
   { id: 'install', t: 'This app on my Home Screen, opened from there' },
-  { id: 'flights', t: 'My flights entered under My Info' },
+  { id: 'flights', t: 'My flights entered on the Flights tab' },
   { id: 'photos', t: 'Photos taken: passport, visa, prescriptions, luggage contents' },
   { id: 'cards', t: 'Visa or Mastercard packed (Amex isn’t widely accepted); bank told about the trip' },
   { id: 'cash', t: 'Some rupees, or an ATM card that works abroad' },
-  { id: 'adapter', t: 'Type D plug adapters' },
+  { id: 'adapter', t: 'Plug adapters for India’s Type D sockets (three round pins)' },
   { id: 'jacket', t: 'Light waterproof jacket, plus a warm layer for dawn safaris' },
   { id: 'shoes', t: 'Walking shoes or sandals, and socks for temple floors' },
   { id: 'sun', t: 'Hat, sunscreen, sunglasses' },
@@ -949,7 +968,7 @@ const CHECKLIST = [
 ];
 
 /* ---------------------------------------------------------------------
-   DIRECTORY — fixed numbers. Personal numbers live under My Info.
+   DIRECTORY — fixed numbers. Personal numbers live on the Guide → Contacts & numbers page.
    kind: tel | wa | mail | url
    --------------------------------------------------------------------- */
 const DIRECTORY = [
@@ -986,9 +1005,9 @@ const HOWTO = [
   { icon: '🧭', title: 'The five tabs', items: [
     '**Home / Today** — before the trip, Home is your getting-ready hub. From **October 16** it becomes **Today**: where you are, getting around, the plan, tonight’s hotel, tomorrow, and quick-call buttons.',
     '**Days** — every day of the trip, any time. Tap a date along the top; today’s has a gold outline. Swipe the dates sideways to see more.',
-    '**Hotels** — each hotel with Call and Map buttons and a box for your room number, plus the group flights with a box for your seat.',
-    '**My Info** — your own flights, your reservation and insurance numbers, every contact number for the trip, and Backup.',
-    '**Guide** — Good to know, Travel documents, What to pack, and your checklist.',
+    '**Flights** — your own flights there and home (add every leg), plus the three flights OUTbound booked for the group, in trip order.',
+    '**Hotels** — each hotel with Call and Map buttons and a box for your room number.',
+    '**Guide** — Contacts & numbers, Good to know, Travel documents, What to pack, your checklist, and Backup.',
     '**🔎 Search** — the round button (or Search at the top on a computer) finds anything: a place, a hotel, a phone number, a tip.'
   ]},
   { icon: '🔄', title: 'Things that change on their own — it’s not broken', items: [
@@ -998,12 +1017,12 @@ const HOWTO = [
     'Ticked checklist items stay on the list, crossed out. Tap again to untick.',
     '**Weather** appears about two weeks before each day. Until then you’ll see “Forecast appears ~2 weeks ahead”. **Air quality** shows on the Today screen during the trip.',
     '**Nepal days** are shown in maroon. If you’re not on the Nepal add-on, simply ignore them.',
-    'Your own flights show up on the matching day once you add them under **My Info**.'
+    'Your own flights show up on the matching day once you add them on the **Flights** tab.'
   ]},
   { icon: '🔒', title: 'Your information', items: [
     'Anything you type — flights, room numbers, notes, checklist ticks — is saved **only on this phone**. It isn’t shared with the group or OUTbound.',
     'Safari and the Home Screen app keep **separate copies**. Add the app to your Home Screen and always use it from there.',
-    'Phones can clear saved website data on their own. Once your info is in, use **My Info → Backup** to send yourself a backup code.'
+    'Phones can clear saved website data on their own. Once your info is in, use **Guide → Backup** to send yourself a backup code.'
   ]},
   { icon: '📶', title: 'Signal & updates', items: [
     'Once you’ve opened the app with a connection, it **still opens without signal** — on a plane, at the airport, between towns. Weather needs a connection.',
@@ -1014,6 +1033,7 @@ const HOWTO = [
     '**Bags out** and **Leave hotel** boxes on travel days stay blank until you fill them in from your guide’s announcement the night before.',
     'Call and WhatsApp buttons dial straight from your phone — check your plan for international rates.',
     'Links with ↗ open outside the app. Switch back to return.',
+    'Each tab has its own light background colour, so you can tell at a glance where you are.',
     'Lines marked 🔎 were added from official public sources, not from OUTbound’s guide.'
   ]}
 ];
@@ -1083,8 +1103,8 @@ function tabs() {
   return [
     ['home', p === 'during' ? 'Today' : 'Home', p === 'during' ? '📍' : '🏠'],
     ['days', 'Days', '🗓️'],
+    ['flights', 'Flights', '✈️'],
     ['hotels', 'Hotels', '🏨'],
-    ['me', 'My Info', '📇'],
     ['guide', 'Guide', '📘']
   ];
 }
@@ -1099,10 +1119,11 @@ function renderNav() {
   markNav();
 }
 function markNav() { $$('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === currentView)); }
-const RENDER = { home: renderHome, days: renderDays, hotels: renderHotels, me: renderMe, guide: renderGuide };
+const RENDER = { home: renderHome, days: renderDays, flights: renderFlights, hotels: renderHotels, guide: renderGuide };
 function showView(id, anchor, keepGuidePage) {
   if (id === 'guide' && !keepGuidePage) guidePage = null;
   currentView = id;
+  document.body.dataset.view = id;
   $$('.view').forEach(v => v.classList.toggle('active', v.id === id + 'View'));
   markNav();
   RENDER[id]();
@@ -1237,8 +1258,8 @@ function bindPlans(d, rerender) {
 function installHTML() {
   if (isStandalone() || !isMobile || st.ui.installHidden) return '';
   const steps = `<ol><li>Tap <strong>Share</strong> (the square with the arrow) in Safari.</li><li>Tap <strong>Add to Home Screen</strong> (scroll down if needed).</li><li>Leave <strong>Open as Web App</strong> switched ON, then tap <strong>Add</strong>.</li><li>Open <strong>India 2026</strong> from your Home Screen and use it from there.</li></ol>
-  <p class="small">Already typed info in Safari? Copy a backup code first (My Info → Backup), then restore it in the Home Screen app. On Android: Chrome menu ⋮ → Install app.</p>
-  <div class="btn-row"><button class="btn" data-go="me" data-anchor="backup">Back up first</button><button class="btn alt" id="hideInstall">Hide</button></div>`;
+  <p class="small">Already typed info in Safari? Copy a backup code first (Guide → Backup), then restore it in the Home Screen app. On Android: Chrome menu ⋮ → Install app.</p>
+  <div class="btn-row"><button class="btn" data-guide="backup">Back up first</button><button class="btn alt" id="hideInstall">Hide</button></div>`;
   if (phase() === 'during') return `<details class="install mini" id="installCard"><summary>📲 Add this app to your Home Screen</summary><div class="inner"><p>Your info is saved on this phone, and Safari and the Home Screen app keep separate copies — so pick one and stick with it. The Home Screen app is safer.</p>${steps}</div></details>`;
   return `<div class="install" id="installCard"><h3>📲 Put this on your Home Screen first</h3>
   <p>Your flights, room numbers and notes are saved on this phone. iPhone keeps Safari and the Home Screen app <strong>separate</strong>, so install first, then enter your info in the Home Screen app.</p>${steps}</div>`;
@@ -1247,7 +1268,8 @@ function routeHTML() {
   const stops = DAYS.filter(d => d.id !== 'early');
   return `<div class="route">${stops.map(d => `<button class="route-stop ${d.nepal ? 'nepal' : ''}" data-day="${DAYS.indexOf(d)}"><div class="route-dot">${d.icon}</div><strong>${esc(d.place.replace('Kathmandu → Delhi', 'Fly home'))}</strong><span>${esc(d.short)}</span></button>`).join('')}</div>`;
 }
-function linksHTML() { return `<div class="links"><button class="link-card internal" data-guide="howto"><span class="li">❓</span><div><strong>How to use this app</strong><span>What each tab does — and what changes on its own</span></div></button>${TRIP.links.map(l => `<a class="link-card" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="li">${l.icon}</span><div><strong>${esc(l.title)}</strong><span>${esc(l.desc)}</span></div></a>`).join('')}</div>`; }
+function howtoBarHTML() { return `<button class="howto-bar" data-guide="howto"><span class="hb-i">❓</span><span class="hb-t"><strong>How to use this app</strong><span>What each tab does — and what changes on its own</span></span><span class="chev">›</span></button>`; }
+function linksHTML() { return `<div class="links">${TRIP.links.map(l => `<a class="link-card" href="${esc(l.url)}" target="_blank" rel="noopener"><span class="li">${l.icon}</span><div><strong>${esc(l.title)}</strong><span>${esc(l.desc)}</span></div></a>`).join('')}</div>`; }
 function quickContactsHTML(d) {
   const sh = DIRECTORY[0].rows[0];
   const hid = d && d.hotel;
@@ -1257,7 +1279,7 @@ function quickContactsHTML(d) {
     ${hid ? `<a class="btn alt" href="${telHref(HOTELS[hid].phone)}">🏨 Call hotel</a>` : `<a class="btn alt" href="${telHref('+19166831000')}">📞 OUTbound</a>`}
     ${d && d.nepal ? '<a class="btn rose" href="tel:100">🚨 Police 100</a>' : '<a class="btn rose" href="tel:112">🚨 Emergency 112</a>'}
   </div>
-  <div style="margin-top:8px"><button class="btn alt sm" data-go="me" data-anchor="directory">All numbers →</button></div>`;
+  <div style="margin-top:8px"><button class="btn alt sm" data-guide="contacts">All numbers →</button></div>`;
 }
 function todayHTML(i) {
   const d = DAYS[i], t = todayISO();
@@ -1281,7 +1303,7 @@ function todayHTML(i) {
     const first = (n.moves || []).filter(m => !m.who || m.who !== 'home').slice(0, 2).map(m => m.t).join(' · ');
     h += `<div class="block"><h3>⏭️ Tomorrow · ${esc(n.short)}</h3><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><div><strong style="font-family:var(--serif);font-size:1.15rem">${esc(n.place)}</strong><div class="small muted">${esc(first || n.title)}</div></div>${wxSpan(n.city, n.iso, 'light')}</div>${lobbyHTML(n, '-n')}<div style="margin-top:8px"><button class="btn alt sm" data-day="${ni}">See tomorrow →</button></div></div>`;
   }
-  h += `<div class="block"><h3>☎️ Quick contacts</h3>${quickContactsHTML(d)}</div></div>`;
+  h += `<div class="block"><h3>☎️ Quick contacts</h3>${quickContactsHTML(d)}</div>${howtoBarHTML()}</div>`;
   return h;
 }
 function beforeHTML() {
@@ -1298,8 +1320,8 @@ function beforeHTML() {
     <div class="tl-row"><div class="tl-when">Sun Oct 18<br>3:00pm</div><div class="tl-what"><strong>Tour begins in Delhi</strong><span>Land at DEL; OUTbound meets you at Gate 4.</span></div></div>
   </div>
   <h2 class="sec">My flights there</h2>
-  ${out.length ? `<div class="block"><div class="moves">${out.map(s => segMoveHTML(s, 'out')).join('')}</div><button class="btn alt sm" data-go="me" style="margin-top:8px">Edit flights →</button></div>`
-    : `<div class="block"><p class="small" style="margin:0 0 10px">Add each leg of your flights to India — connections included. They’ll appear on the right day, with confirmation codes and seats.</p><button class="btn" data-go="me">✈️ Add my flights</button></div>`}
+  ${out.length ? `<div class="block"><div class="moves">${out.map(s => segMoveHTML(s, 'out')).join('')}</div><button class="btn alt sm" data-go="flights" style="margin-top:8px">Edit flights →</button></div>`
+    : `<div class="block"><p class="small" style="margin:0 0 10px">Add each leg of your flights to India — connections included. They’ll appear on the right day, with confirmation codes and seats.</p><button class="btn" data-go="flights">✈️ Add my flights</button></div>`}
   <h2 class="sec">First days’ forecast</h2><p class="sec-sub">Live from Open-Meteo once the dates are within about two weeks.</p>
   <div class="block"><div class="moves">${firstDays.map(d => `<div class="move"><div class="mi">${d.icon}</div><div><strong>${esc(d.short)} · ${esc(d.place)}</strong>${wxSpan(d.city, d.iso, 'light', 'Forecast appears ~2 weeks ahead')}</div></div>`).join('')}</div></div>`;
 }
@@ -1311,9 +1333,9 @@ function renderHome() {
     if (DAYS[i].early) h += `<div class="info" style="margin-bottom:12px">🧳 Early-arrival days. The tour begins Sunday, October 18 at 3:00pm.</div>`;
     h += todayHTML(i);
   } else if (p === 'before') {
-    h += beforeHTML();
+    h += howtoBarHTML() + beforeHTML();
   } else {
-    h += `<div class="today-head"><div class="kicker">Enchanting India · 2026</div><h2>Welcome home</h2><div class="ttl">“We never say goodbye… only until we see you again.”</div></div>`;
+    h += howtoBarHTML() + `<div class="today-head" style="margin-top:12px"><div class="kicker">Enchanting India · 2026</div><h2>Welcome home</h2><div class="ttl">“We never say goodbye… only until we see you again.”</div></div>`;
   }
   h += `<h2 class="sec">The route</h2><p class="sec-sub">Tap a stop to open that day.</p><div class="block">${routeHTML()}</div>`;
   if (p !== 'during') h += `<h2 class="sec">Trip links</h2>${linksHTML()}`;
@@ -1422,7 +1444,7 @@ function hotelCardHTML(id) {
 function renderHotels() {
   const v = $('#hotelsView');
   const india = ['delhi', 'agra', 'ranth', 'jaipur', 'jodhpur', 'udaipur'], nepal = ['ktm', 'dhulikhel'];
-  v.innerHTML = `<h2 class="sec">Hotels & flights</h2><p class="sec-sub">Where you sleep, how you move. Room numbers and seats you type here are saved on this phone and show up on the Today screen.</p>
+  v.innerHTML = `<h2 class="sec">Hotels</h2><p class="sec-sub">Where you sleep, night by night. Room numbers you type here are saved on this phone and show up on the Today screen.</p>
   <div class="facts">
     <div class="fact"><div class="fi">🔌</div><b>Plugs</b><span>Type D (3 round pins) · 230 V</span></div>
     <div class="fact"><div class="fi">💧</div><b>Water</b><span>Bottled — in rooms & on the bus</span></div>
@@ -1433,23 +1455,19 @@ function renderHotels() {
   <div class="stack">${india.map(hotelCardHTML).join('')}</div>
   <h2 class="sec">Nepal add-on</h2>
   <div class="stack">${nepal.map(hotelCardHTML).join('')}</div>
-  <h2 class="sec">Group flights</h2><p class="sec-sub">Booked by OUTbound. Add your seat and booking reference when your guide hands them out.</p>
-  <div class="stack">${GROUP_FLIGHTS.map(groupFlightHTML).join('')}</div>
   <h2 class="sec">On the road</h2>
   <div class="block"><div class="moves">
     <div class="move"><div class="mi">🚌</div><div><strong>Luxury coach</strong><span>Spacious seating, modern amenities and an onboard restroom.</span></div></div>
     <div class="move"><div class="mi">🧑‍🏫</div><div><strong>English-speaking guide</strong><span>With you throughout Rajasthan.</span></div></div>
     <div class="move"><div class="mi">🧑‍✈️</div><div><strong>Professional driver & bus assistant</strong><span>The assistant helps with luggage and anything you need on board.</span></div></div>
     <div class="move"><div class="mi">🍽️</div><div><strong>Meals</strong><span>Breakfast, lunch and dinner are included, at hotels and selected restaurants.</span></div></div>
-  </div></div>
-  <h2 class="sec">Trip links</h2>${linksHTML()}`;
+  </div></div>`;
   bindGuideTiles(v);
   $$('[data-room]', v).forEach(inp => inp.oninput = () => { const id = inp.dataset.room; st.rooms[id] = inp.value.trim(); S.set('Rooms', st.rooms); flash($('#rf-' + id)); });
-  bindGroupFlights(v);
 }
 
 /* =====================================================================
-   MY INFO — personal flights, numbers, directory, backup
+   FLIGHTS tab + contacts / numbers / backup pages (shown under Guide) — personal flights, numbers, directory, backup
    ===================================================================== */
 const SEG_FIELDS = [
   ['date', 'Date', 'date', ''], ['airline', 'Airline', 'text', 'United'], ['no', 'Flight', 'text', 'UA 82'],
@@ -1524,41 +1542,38 @@ function backupHTML() {
       <p class="small muted">Restoring replaces what’s on this phone with what’s in the code.</p>
     </details></div>`;
 }
-function renderMe() {
-  const v = $('#meView');
-  v.innerHTML = `<div class="jump"><button class="btn alt sm" data-j="journey-out">✈️ Flights</button><button class="btn alt sm" data-j="mynumbers">🔢 Numbers</button><button class="btn alt sm" data-j="directory">☎️ Contacts</button><button class="btn alt sm" data-j="backup">💾 Backup</button></div>
-    <h2 class="sec">My flights</h2><p class="sec-sub">Your own flights to and from India. Add every leg, connections included — each one shows up on the right day.</p>
-    ${journeyHTML('out', 'Getting there', '🛫', 'No flights added yet.')}
-    ${journeyHTML('home', 'Going home', '🏠', 'Going home Oct 30, or Nov 3 after Nepal.')}
-    <div class="info small">🔎 Long-haul flights from Delhi often leave after midnight. A “Friday night” flight is usually dated Saturday — enter the date printed on your ticket.</div>
-    <h2 class="sec">My numbers</h2><p class="sec-sub">Reservation, visa and insurance numbers — plus anything else you want handy. Room numbers live on the Hotels tab.</p>
-    ${numbersHTML()}
-    <h2 class="sec" id="directory">Contacts</h2><p class="sec-sub">Tap to call. Numbers marked 🔎 come from official public sources rather than the OUTbound guide.</p>
-    ${directoryHTML()}
-    <h2 class="sec">Backup</h2>
-    ${backupHTML()}`;
+function renderFlights() {
+  const v = $('#flightsView');
+  v.innerHTML = `<h2 class="sec">Flights</h2><p class="sec-sub">Your own flights, and the ones OUTbound booked for the group — in trip order. Each one also shows up on its day.</p>
+    <div class="jump"><button class="btn alt sm" data-j="journey-out">🛫 Getting there</button><button class="btn alt sm" data-j="group-flights">🧭 OUTbound flights</button><button class="btn alt sm" data-j="journey-home">🏠 Going home</button></div>
+    ${journeyHTML('out', 'Getting there', '🛫', 'Your flights to Delhi. Add every leg, connections included.')}
+    <div class="journey" id="group-flights"><div class="journey-head"><h3>🧭 OUTbound group flights</h3><span class="small muted">${GROUP_FLIGHTS.length} flights</span></div>
+      <p class="small muted" style="margin:0 0 10px">Booked by OUTbound. Add your seat and booking reference when your guide hands them out.</p>
+      <div class="stack">${GROUP_FLIGHTS.map(groupFlightHTML).join('')}</div></div>
+    ${journeyHTML('home', 'Going home', '🏠', 'Going home Oct 30, or Nov 3 after Nepal. Add every leg.')}
+    <div class="info small">🔎 Long-haul flights from Delhi often leave after midnight. A “Friday night” flight is usually dated Saturday — enter the date printed on your ticket.</div>`;
   $$('[data-j]', v).forEach(b => b.onclick = () => { const el = document.getElementById(b.dataset.j); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
-  // flights
-  $$('[data-sadd]', v).forEach(b => b.onclick = () => { segEdit = { kind: b.dataset.sadd, idx: -1 }; renderMe(); focusSeg(b.dataset.sadd); });
-  $$('[data-scancel]', v).forEach(b => b.onclick = () => { segEdit = null; renderMe(); });
-  $$('[data-se]', v).forEach(b => b.onclick = () => { const [k, i] = b.dataset.se.split('|'); segEdit = { kind: k, idx: +i }; renderMe(); focusSeg(k); });
-  $$('[data-sx]', v).forEach(b => b.onclick = () => { const [k, i] = b.dataset.sx.split('|'); const s = st.flights[k][+i]; if (!confirmRemove(s)) return; st.flights[k].splice(+i, 1); S.set('Flights', st.flights); renderMe(); });
+  bindGroupFlights(v);
+  $$('[data-sadd]', v).forEach(b => b.onclick = () => { segEdit = { kind: b.dataset.sadd, idx: -1 }; renderFlights(); focusSeg(b.dataset.sadd); });
+  $$('[data-scancel]', v).forEach(b => b.onclick = () => { segEdit = null; renderFlights(); });
+  $$('[data-se]', v).forEach(b => b.onclick = () => { const [k, i] = b.dataset.se.split('|'); segEdit = { kind: k, idx: +i }; renderFlights(); focusSeg(k); });
+  $$('[data-sx]', v).forEach(b => b.onclick = () => { const [k, i] = b.dataset.sx.split('|'); const s = st.flights[k][+i]; if (!confirmRemove(s)) return; st.flights[k].splice(+i, 1); S.set('Flights', st.flights); renderFlights(); });
   $$('[data-ssave]', v).forEach(b => b.onclick = () => {
     const kind = b.dataset.ssave, form = $('#segForm-' + kind), seg = {};
     $$('input', form).forEach(i => { const val = i.value.trim(); if (val) seg[i.dataset.k] = (i.dataset.k === 'from' || i.dataset.k === 'to') ? val.toUpperCase() : val; });
     if (!seg.no && !seg.from && !seg.to) { toast('Add at least a flight number or airports'); return; }
     if (segEdit.idx >= 0) st.flights[kind][segEdit.idx] = seg; else st.flights[kind].push(seg);
-    sortSegs(st.flights[kind]); S.set('Flights', st.flights); segEdit = null; toast('Flight saved'); renderMe();
+    sortSegs(st.flights[kind]); S.set('Flights', st.flights); segEdit = null; toast('Flight saved'); renderFlights();
     const j = $('#journey-' + kind); if (j) j.scrollIntoView({ block: 'start' });
   });
-  // numbers
-  $$('[data-nk]', v).forEach(inp => inp.oninput = () => {
+}
+function bindNumbers(root) {
+  $$('[data-nk]', root).forEach(inp => inp.oninput = () => {
     st.nums[inp.dataset.nk] = inp.value.trim(); S.set('Numbers', st.nums); flash($('#nmFlash'));
     if (inp.dataset.nk === 'insPhone' || inp.dataset.nk === 'insCo') $('#insCall').innerHTML = st.nums.insPhone && looksLikePhone(st.nums.insPhone) ? `<a class="btn sm" href="${telHref(st.nums.insPhone)}">📞 Call ${esc(st.nums.insCo || 'insurer')}</a>` : '';
   });
-  $('#cuAdd', v).onclick = () => { const l = $('#cu-l').value.trim(), val = $('#cu-v').value.trim(); if (!l || !val) { toast('Add a label and a number'); return; } st.nums.custom = st.nums.custom || []; st.nums.custom.push({ l, v: val }); S.set('Numbers', st.nums); renderMe(); showView('me', 'mynumbers'); };
-  $$('[data-cx]', v).forEach(b => b.onclick = () => { st.nums.custom.splice(+b.dataset.cx, 1); S.set('Numbers', st.nums); renderMe(); });
-  bindBackup();
+  const add = $('#cuAdd', root); if (add) add.onclick = () => { const l = $('#cu-l').value.trim(), val = $('#cu-v').value.trim(); if (!l || !val) { toast('Add a label and a number'); return; } st.nums.custom = st.nums.custom || []; st.nums.custom.push({ l, v: val }); S.set('Numbers', st.nums); renderGuide(); const m = $('#mynumbers'); if (m) m.scrollIntoView({ block: 'start' }); };
+  $$('[data-cx]', root).forEach(b => b.onclick = () => { st.nums.custom.splice(+b.dataset.cx, 1); S.set('Numbers', st.nums); renderGuide(); const m = $('#mynumbers'); if (m) m.scrollIntoView({ block: 'start' }); });
 }
 function focusSeg(kind) { setTimeout(() => { const f = $('#segForm-' + kind); if (f) { f.scrollIntoView({ block: 'center' }); } }, 30); }
 function confirmRemove(s) { try { return window.confirm('Remove ' + ([s.airline, s.no].filter(Boolean).join(' ') || 'this flight') + '?'); } catch (e) { return true; } }
@@ -1622,19 +1637,23 @@ const GUIDE_PAGES = {
   docs: { title: 'Travel documents', icon: '🛂' },
   pack: { title: 'What to pack', icon: '👕' },
   check: { title: 'My checklist', icon: '✅' },
+  contacts: { title: 'Contacts & numbers', icon: '☎️' },
+  backup: { title: 'Backup', icon: '💾' },
   howto: { title: 'How to use this app', icon: '❓', hidden: true }
 };
 function guidePageFor(sectionId) { return ['docs', 'earrival', 'photos'].includes(sectionId) ? 'docs' : sectionId === 'pack' ? 'pack' : 'trip'; }
 function openGuide(page, anchor) { guidePage = page; showView('guide', anchor, true); }
-function tilesHTML() {
+function tilesHTML(full) {
   const total = CHECKLIST.length, done = CHECKLIST.filter(c => st.checks[c.id]).length;
   const before = phase() === 'before';
   const needArrival = before && !st.checks.earrival;
   return `<div class="tiles">
+    ${full ? `<button class="tile t-contacts" data-guide="contacts"><span class="ti">☎️</span><strong>Contacts & numbers</strong><span class="ts">Local host, hotels, embassies, emergency — and your own numbers</span><span class="tgo">Open ›</span></button>` : ''}
     <button class="tile t-trip" data-guide="trip"><span class="ti">📘</span><strong>Good to know</strong><span class="ts">Money, tipping, plugs, temples, lost luggage & more</span><span class="tgo">Open ›</span></button>
     <button class="tile t-docs" data-guide="docs">${needArrival ? '<span class="tbadge">Action needed</span>' : ''}<span class="ti">🛂</span><strong>Travel documents</strong><span class="ts">${before ? '<b>New for 2026:</b> India e-Arrival Card — required even if you already have your visa' : 'Passport, eVisa, e-Arrival Card, Nepal entry'}</span><span class="tgo">Open ›</span></button>
     <button class="tile t-pack" data-guide="pack"><span class="ti">👕</span><strong>What to pack</strong><span class="ts">Clothes, shoes, layers, plugs — tick off as you pack</span><span class="tgo">Open ›</span></button>
     <button class="tile t-check" data-guide="check"><span class="ti">✅</span><strong>My checklist</strong><span class="ts">${done} of ${total} done</span><span class="tbar"><span style="width:${(done / total * 100).toFixed(0)}%"></span></span><span class="tgo">Open ›</span></button>
+    ${full ? `<button class="tile t-backup" data-guide="backup"><span class="ti">💾</span><strong>Backup</strong><span class="ts">Send yourself a copy of everything you’ve typed in</span><span class="tgo">Open ›</span></button>` : ''}
   </div>`;
 }
 function bindGuideTiles(root) { $$('[data-guide]', root).forEach(b => b.onclick = () => openGuide(b.dataset.guide)); }
@@ -1642,7 +1661,7 @@ function renderGuide() {
   const v = $('#guideView'), p = phase();
   const legend = `<p class="legend">Straight from OUTbound’s guide, except lines marked 🔎 — those were added from official public sources.</p>`;
   if (!guidePage) {
-    v.innerHTML = `<h2 class="sec">Guide</h2><p class="sec-sub">${p === 'before' ? 'Everything to sort before you fly, and what to know once you’re there.' : 'Practical information for the road.'}</p>${tilesHTML()}<h2 class="sec">Trip links</h2>${linksHTML()}`;
+    v.innerHTML = `<h2 class="sec">Guide</h2><p class="sec-sub">${p === 'before' ? 'Everything to sort before you fly, and what to know once you’re there.' : 'Practical information for the road.'}</p>${howtoBarHTML()}<div style="height:12px"></div>${tilesHTML(true)}<h2 class="sec">Trip links</h2>${linksHTML()}`;
     bindGuideTiles(v);
     return;
   }
@@ -1657,6 +1676,11 @@ function renderGuide() {
     body = `<p class="sec-sub">What you need to get into India — and into Nepal on the add-on.</p>${legend}<div class="prep-grid">${['docs', 'earrival', 'nepal', 'photos'].map(id => prepCardHTML(find(id))).join('')}</div>`;
   } else if (guidePage === 'pack') {
     body = `${legend}${prepCardHTML(find('pack'))}<div style="height:12px"></div>${checklistHTML(PACK_IDS, '🧳 Tick off as you pack', 'packlist')}<p class="small muted">These are the packing items from your checklist — ticking them here ticks them there too.</p>`;
+  } else if (guidePage === 'contacts') {
+    body = `<p class="sec-sub">Tap to call. Numbers marked 🔎 come from official public sources rather than the OUTbound guide.</p><div id="directory">${directoryHTML()}</div>
+      <h2 class="sec">My numbers</h2><p class="sec-sub">Reservation, visa and insurance numbers — plus anything else you want handy. Saved on this phone.</p>${numbersHTML()}`;
+  } else if (guidePage === 'backup') {
+    body = backupHTML();
   } else if (guidePage === 'howto') {
     body = `<p class="sec-sub">A quick tour — and the things that change by themselves as the trip goes on.</p><div class="prep-grid">${HOWTO.map((s, i) => prepCardHTML({ id: 'howto' + i, icon: s.icon, title: s.title, items: s.items, hot: i === 1 ? 'Read this one' : '' })).join('')}</div>`;
   } else {
@@ -1669,6 +1693,8 @@ function renderGuide() {
   $('[data-guide-back]', v).onclick = () => { guidePage = null; showView('guide', null, true); };
   bindGuideTiles(v);
   bindChecklist(v);
+  if (guidePage === 'contacts') bindNumbers(v);
+  if (guidePage === 'backup') bindBackup();
 }
 
 /* =====================================================================
@@ -1732,13 +1758,13 @@ function searchIndex() {
     (st.plans[d.id] || []).forEach(p => a.push({ w: `${d.short} · my plans`, t: p.t, x: `${p.w || ''} ${p.n || ''}`, go: () => openDay(i) }));
   });
   Object.entries(HOTELS).forEach(([id, H]) => a.push({ w: 'Hotel · ' + H.city, t: H.name, x: `${H.addr} ${H.phone} ${H.nights} ${st.rooms[id] ? 'room ' + st.rooms[id] : ''}`, go: () => showView('hotels', 'hotel-' + id) }));
-  GROUP_FLIGHTS.forEach(f => a.push({ w: 'Group flight · ' + f.date, t: `${f.airline} ${f.code} · ${f.from} → ${f.to}`, x: `${f.fromCity} ${f.toCity} departs ${f.dep} arrives ${f.arr}`, go: () => showView('hotels') }));
-  ['out', 'home'].forEach(k => st.flights[k].forEach(s => a.push({ w: k === 'out' ? 'My flights · there' : 'My flights · home', t: `${s.airline || ''} ${s.no || ''} ${s.from || ''} → ${s.to || ''}`, x: `${s.date ? fmtISO(s.date) : ''} ${s.dep || ''} ${s.conf || ''} ${s.seat || ''} ${s.notes || ''}`, go: () => showView('me') })));
+  GROUP_FLIGHTS.forEach(f => a.push({ w: 'Group flight · ' + f.date, t: `${f.airline} ${f.code} · ${f.from} → ${f.to}`, x: `${f.fromCity} ${f.toCity} departs ${f.dep} arrives ${f.arr}`, go: () => showView('flights', 'group-flights') }));
+  ['out', 'home'].forEach(k => st.flights[k].forEach(s => a.push({ w: k === 'out' ? 'My flights · there' : 'My flights · home', t: `${s.airline || ''} ${s.no || ''} ${s.from || ''} → ${s.to || ''}`, x: `${s.date ? fmtISO(s.date) : ''} ${s.dep || ''} ${s.conf || ''} ${s.seat || ''} ${s.notes || ''}`, go: () => showView('flights') })));
   HOWTO.forEach(s => a.push({ w: 'How to use this app', t: s.title, x: s.items.join(' ').replace(/\*\*/g, ''), go: () => openGuide('howto') }));
   GUIDE.forEach(s => a.push({ w: 'Guide', t: s.title, x: s.items.join(' '), go: () => openGuide(guidePageFor(s.id), 'g-' + s.id) }));
-  DIRECTORY.forEach(g => g.rows.forEach(r => a.push({ w: 'Contacts · ' + g.group, t: r.name, x: `${r.sub} ${r.actions.map(x => x.v).join(' ')}`, go: () => showView('me', 'directory') })));
-  const n = st.nums; [['res', 'OUTbound reservation'], ['evisa', 'India eVisa ID'], ['insPol', 'Insurance policy'], ['insPhone', 'Insurance phone']].forEach(([k, l]) => n[k] && a.push({ w: 'My numbers', t: l, x: n[k], go: () => showView('me', 'mynumbers') }));
-  (n.custom || []).forEach(c => a.push({ w: 'My numbers', t: c.l, x: c.v, go: () => showView('me', 'mynumbers') }));
+  DIRECTORY.forEach(g => g.rows.forEach(r => a.push({ w: 'Contacts · ' + g.group, t: r.name, x: `${r.sub} ${r.actions.map(x => x.v).join(' ')}`, go: () => openGuide('contacts', 'directory') })));
+  const n = st.nums; [['res', 'OUTbound reservation'], ['evisa', 'India eVisa ID'], ['insPol', 'Insurance policy'], ['insPhone', 'Insurance phone']].forEach(([k, l]) => n[k] && a.push({ w: 'My numbers', t: l, x: n[k], go: () => openGuide('contacts', 'mynumbers') }));
+  (n.custom || []).forEach(c => a.push({ w: 'My numbers', t: c.l, x: c.v, go: () => openGuide('contacts', 'mynumbers') }));
   CHECKLIST.forEach(c => a.push({ w: 'Checklist', t: c.t, x: '', go: () => openGuide('check') }));
   return a;
 }
